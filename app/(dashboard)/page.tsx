@@ -1,6 +1,6 @@
 import { UserButton } from "@clerk/nextjs";
 
-const page = () => {
+const DashboardPage = () => {
   return (
     <div>
       <UserButton />
@@ -8,4 +8,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default DashboardPage;

@@ -57,20 +57,23 @@ export async function POST(req: Request) {
       where: { clerkId: id as string },
       create: {
         clerkId: id as string,
-        firstName: evt.data.first_name,
-        lastName: evt.data.last_name,
         email: evt.data.email_addresses[0].email_address,
-        phone: evt.data.phone_numbers[0].phone_number,
-        image: evt.data.image_url,
       },
       update: {
         clerkId: id as string,
         firstName: evt.data.first_name,
         lastName: evt.data.last_name,
         email: evt.data.email_addresses[0].email_address,
-        phone: evt.data.phone_numbers[0].phone_number,
-        image: evt.data.image_url,
         updatedAt: new Date(),
+      },
+    });
+  }
+
+  if (eventType == "user.deleted") {
+    const { id } = evt.data;
+    await db.user.delete({
+      where: {
+        clerkId: id,
       },
     });
   }

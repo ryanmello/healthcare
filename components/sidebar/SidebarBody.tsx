@@ -55,12 +55,6 @@ const SidebarBody = ({
           expanded={expanded}
         />
         <SidebarItem
-          icon={BarChart3}
-          text="Statistics"
-          route="/statistics"
-          expanded={expanded}
-        />
-        <SidebarItem
           icon={CircleUserRound}
           text="Users"
           route="/users"

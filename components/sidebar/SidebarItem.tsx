@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface SidebarItemProps {
@@ -18,8 +19,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   route,
   expanded,
 }) => {
-  const [active, setActive] = useState(false);
   const path = usePathname();
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(route);
+  }
+
   return (
     <li
       className={cn(
@@ -28,7 +34,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           ? "bg-gradient-to-tr from-slate-600 to bg-slate-700"
           : "hover:bg-slate-700 text-slate-300"
       )}
-      onClick={() => setActive(!active)}
+      onClick={handleClick}
     >
       <Icon />
       <span className={cn(expanded ? "w-52 pl-3" : "hidden")}>{text}</span>

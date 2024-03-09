@@ -1,16 +1,15 @@
-import { currentUser } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 import SidebarBody from "./SidebarBody";
+import { getDatabaseUser } from "@/app/actions/get-database-user";
 
 const Sidebar = async () => {
-  const user = await currentUser();
+  const { userId } = auth();
+  const user = await getDatabaseUser({ userId });
 
   return (
     <aside className="h-screen">
       <nav className="h-full flex flex-col bg-slate-900 border-r shadow-sm">
-        <SidebarBody
-          image={user?.imageUrl}
-          email={user?.emailAddresses[0].emailAddress}
-        />
+        <SidebarBody user={user} />
       </nav>
     </aside>
   );

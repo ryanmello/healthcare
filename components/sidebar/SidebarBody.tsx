@@ -14,13 +14,12 @@ import logo from "@/public/logo.svg";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import SidebarItem from "./SidebarItem";
+import { User } from "@prisma/client";
 
 const SidebarBody = ({
-  image,
-  email,
+  user
 }: {
-  image: string | undefined;
-  email: string | undefined;
+  user: User | null;
 }) => {
   const [expanded, setExpanded] = useState(true);
 
@@ -63,9 +62,9 @@ const SidebarBody = ({
       </ul>
       <div className="flex justify-between items-center border-t border-slate-700 p-4">
         <div className="flex items-center">
-          {image != undefined && (
+          {user?.image && (
             <Image
-              src={image}
+              src={user.image}
               alt="image"
               className="w-10 h-10 rounded-md"
               height={100}
@@ -73,8 +72,8 @@ const SidebarBody = ({
             />
           )}
           <div className={cn("flex flex-col justify-center leading-4 cursor-default ml-2", !expanded && "hidden")}>
-            <h4 className="font-semibold">John Doe</h4>
-            <span className="text-xs text-slate-500">{email}</span>
+            <h4 className="font-semibold">{user?.firstName} {user?.lastName}</h4>
+            <span className="text-xs text-slate-500">{user?.email}</span>
           </div>
         </div>
         <MoreVertical

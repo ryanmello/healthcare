@@ -31,7 +31,7 @@ export default function RootLayout({
           <ThemeProvider
             attribute="class"
             forcedTheme="dark"
-            storageKey="claycityfc-theme"
+            storageKey="healthcare-theme"
           >
             <div className="flex">
               <Sidebar />

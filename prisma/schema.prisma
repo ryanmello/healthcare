@@ -10,28 +10,41 @@ datasource db {
 // https://csus.instructure.com/courses/116096/files/20385697?module_item_id=6222591
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  clerkId   String   @unique
-  role      String   @default("user")
-  email     String
-  firstName String?
-  lastName  String?
-  phone     String?
-  image     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId      String        @unique
+  role         String        @default("user")
+  email        String
+  firstName    String?
+  lastName     String?
+  phone        String?
+  image        String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  appointments Appointment[]
 }
 
 model Patient {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  firstName    String
+  lastName     String
+  email        String
+  phone        String?
+  image        String?
+  dob          String
+  gender       String
+  address      String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  appointments Appointment[]
+}
+
+model Appointment {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  firstName String
-  lastName  String
-  email     String
-  phone     String?
-  image     String?
-  dob       String
-  gender    String
-  address   String
+  patientId String   @db.ObjectId
+  patient   Patient  @relation(fields: [patientId], references: [id])
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  startTime String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

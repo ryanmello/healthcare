@@ -17,14 +17,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import PatientCombobox from "./PatientCombobox";
-import { Patient } from "@prisma/client";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
 });
 
-const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
+const CreatePatientModal = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -68,26 +66,6 @@ const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Patient</FormLabel>
-                  <FormControl>
-                    <PatientCombobox
-                      patients={patients}
-                      onChange={field.onChange}
-                      passedValue={field.value}
-                      name={field.name}
-                      onBlur={field.onBlur}
-                      disabled={field.disabled}
-                      ref={field.ref}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
             <Button type="submit">Submit</Button>
           </form>
         </Form>
@@ -96,4 +74,4 @@ const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
   );
 };
 
-export default CreateAppointmentModal;
+export default CreatePatientModal;

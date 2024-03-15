@@ -1,10 +1,10 @@
 import { auth, currentUser } from "@clerk/nextjs";
 import SidebarBody from "./SidebarBody";
-import { getDatabaseUser } from "@/app/actions/get-database-user";
+import { getUser } from "@/app/actions/get-user";
 
 const Sidebar = async () => {
   const { userId } = auth();
-  const user = await getDatabaseUser({ userId });
+  const user = await getUser({ userId });
 
   return (
     <aside className="h-screen">

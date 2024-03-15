@@ -1,7 +1,9 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import CreateAppointmentModal from "./components/CreateAppointmentModal";
+import { getAppointments } from "../actions/get-appointments";
 
-const Dashboard = () => {
+const Dashboard = async () => {
+  const appointments = await getAppointments();
   return (
     <MaxWidthWrapper className="flex mt-4">
       <div className="w-1/3">
@@ -11,9 +13,12 @@ const Dashboard = () => {
             <CreateAppointmentModal />
           </div>
           <div className="flex flex-col space-y-2">
-            <div className="w-full h-24 border-2 border-slate-700 rounded-md"></div>
-            <div className="w-full h-24 border-2 border-slate-700 rounded-md"></div>
-            <div className="w-full h-24 border-2 border-slate-700 rounded-md"></div>
+            {appointments.map((app) => (
+              <div
+                key={app.id}
+                className="w-full h-24 border-2 border-slate-700 rounded-md"
+              />
+            ))}
           </div>
         </div>
       </div>

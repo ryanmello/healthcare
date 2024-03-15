@@ -1,7 +1,7 @@
-import { getAllDatabaseUsers } from "../actions/get-all-db-users";
+import { getUsers } from "../actions/get-users";
 
 const Users = async () => {
-  const users = await getAllDatabaseUsers();
+  const users = await getUsers();
   return (
     <div className="flex flex-col">
       {users.map((user) => (

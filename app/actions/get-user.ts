@@ -1,6 +1,6 @@
 import db from "@/lib/db";
 
-export const getDatabaseUser = async ({
+export const getUser = async ({
   userId,
 }: {
   userId: string | undefined | null;

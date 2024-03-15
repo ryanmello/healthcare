@@ -12,7 +12,7 @@ const Dashboard = async () => {
     <MaxWidthWrapper className="flex mt-4">
       <div className="w-1/3">
         <div className="px-2">
-          <div className="flex items-center justify-between my-4">
+          <div className="flex items-center justify-between my-4 bg-slate-700 p-2 rounded-md">
             <h2 className="font-semibold">Upcoming appointments</h2>
             <CreateAppointmentModal patients={patients} />
           </div>
@@ -20,7 +20,7 @@ const Dashboard = async () => {
       </div>
       <div className="w-1/3">
         <div className="px-2">
-          <div className="flex items-center justify-between my-4">
+          <div className="flex items-center justify-between my-4 bg-slate-700 p-2 rounded-md">
             <h2 className="font-semibold">Patients</h2>
             <CreatePatientModal />
           </div>

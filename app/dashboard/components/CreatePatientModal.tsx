@@ -10,16 +10,20 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  firstName: z.string().min(2).max(50),
+  lastName: z.string().min(2).max(50),
+  email: z.string().min(2),
+  phone: z.string().min(2),
+  dob: z.string().min(2),
+  gender: z.string().min(2),
+  address: z.string().min(2),
 });
 
 const CreatePatientModal = () => {
@@ -28,7 +32,13 @@ const CreatePatientModal = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      dob: "",
+      gender: "",
+      address: "",
     },
   });
 
@@ -56,12 +66,12 @@ const CreatePatientModal = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="username"
+              name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Patient</FormLabel>
+                  <FormLabel>First Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Patient" {...field} />
+                    <Input placeholder="First Name" {...field} />
                   </FormControl>
                 </FormItem>
               )}

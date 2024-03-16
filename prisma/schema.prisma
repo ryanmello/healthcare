@@ -39,13 +39,14 @@ model Patient {
 }
 
 model Appointment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  patientId String   @db.ObjectId
-  patient   Patient  @relation(fields: [patientId], references: [id])
-  userId    String   @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  date      String
-  time      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId   String   @db.ObjectId
+  patient     Patient  @relation(fields: [patientId], references: [id])
+  userId      String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
+  date        String
+  time        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

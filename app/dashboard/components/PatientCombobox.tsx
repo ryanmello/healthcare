@@ -19,10 +19,10 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import { RefCallBack } from "react-hook-form";
-import { Patient } from "@prisma/client";
+import { Patient, User } from "@prisma/client";
 
 interface PatientComboboxProps {
-  patients: Patient[];
+  patients: Patient[] | User[];
   onChange: (value: string) => void;
   passedValue: string;
   disabled?: boolean;

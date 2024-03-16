@@ -15,17 +15,20 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import PatientCombobox from "./PatientCombobox";
-import { Patient } from "@prisma/client";
+import { Patient, User } from "@prisma/client";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   patientId: z.string().min(2),
   userId: z.string().min(2),
   date: z.string().min(2),
   time: z.string().min(2),
+  description: z.string().min(2),
 });
 
-const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
+const CreateAppointmentModal = ({ patients, users }: { patients: Patient[], users: User[] }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -35,12 +38,19 @@ const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
       userId: "",
       date: "",
       time: "",
+      description: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await axios.post("/api/appointment/create", values);
+      toast.success("Appointment created");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -85,9 +95,17 @@ const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
               name="userId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>UserId</FormLabel>
+                  <FormLabel>User</FormLabel>
                   <FormControl>
-                    <Input placeholder="UserId" {...field} />
+                    <PatientCombobox
+                      patients={users}
+                      onChange={field.onChange}
+                      passedValue={field.value}
+                      name={field.name}
+                      onBlur={field.onBlur}
+                      disabled={field.disabled}
+                      ref={field.ref}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -112,6 +130,18 @@ const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
                   <FormLabel>Time</FormLabel>
                   <FormControl>
                     <Input placeholder="Time" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Description" {...field} />
                   </FormControl>
                 </FormItem>
               )}

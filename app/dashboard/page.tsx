@@ -1,8 +1,8 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import CreateAppointmentModal from "./components/CreateAppointmentModal";
+import AppointmentModal from "./components/AppointmentModal";
 import { getAppointments } from "../actions/get-appointments";
 import { getPatients } from "../actions/get-patients";
-import CreatePatientModal from "./components/CreatePatientModal";
+import PatientModal from "./components/PatientModal";
 
 const Dashboard = async () => {
   const appointments = await getAppointments();
@@ -14,7 +14,7 @@ const Dashboard = async () => {
         <div className="px-2">
           <div className="flex items-center justify-between my-4 bg-slate-700 p-2 rounded-md">
             <h2 className="font-semibold">Upcoming appointments</h2>
-            <CreateAppointmentModal patients={patients} />
+            <AppointmentModal patients={patients} />
           </div>
         </div>
       </div>
@@ -22,8 +22,19 @@ const Dashboard = async () => {
         <div className="px-2">
           <div className="flex items-center justify-between my-4 bg-slate-700 p-2 rounded-md">
             <h2 className="font-semibold">Patients</h2>
-            <CreatePatientModal />
+            <PatientModal />
           </div>
+          {patients.map((patient) => (
+            <div
+              key={patient.id}
+              className="p-2 border-2 border-slate-800 mb-2 rounded-md"
+            >
+              <p>
+                {patient.firstName} {patient.lastName}
+              </p>
+              <p>{patient.email}</p>
+            </div>
+          ))}
         </div>
       </div>
     </MaxWidthWrapper>

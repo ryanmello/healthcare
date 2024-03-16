@@ -156,8 +156,8 @@ const CreatePatientModal = () => {
                 </FormItem>
               )}
             />
-            <DialogTrigger>
-              <Button type="submit">Submit</Button>
+            <DialogTrigger className="w-full">
+              <Button type="submit" className="w-full">Submit</Button>
             </DialogTrigger>
           </form>
         </Form>

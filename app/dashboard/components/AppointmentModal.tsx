@@ -10,18 +10,19 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import PatientCombobox from "./PatientCombobox";
 import { Patient } from "@prisma/client";
+import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  patientId: z.string().min(2),
+  userId: z.string().min(2),
+  date: z.string().min(2),
+  time: z.string().min(2),
 });
 
 const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
@@ -30,7 +31,10 @@ const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      patientId: "",
+      userId: "",
+      date: "",
+      time: "",
     },
   });
 
@@ -58,19 +62,7 @@ const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Patient</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Patient" {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="username"
+              name="patientId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Patient</FormLabel>
@@ -84,6 +76,42 @@ const CreateAppointmentModal = ({ patients }: { patients: Patient[] }) => {
                       disabled={field.disabled}
                       ref={field.ref}
                     />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="userId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>UserId</FormLabel>
+                  <FormControl>
+                    <Input placeholder="UserId" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Date</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Date" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="time"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Time</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Time" {...field} />
                   </FormControl>
                 </FormItem>
               )}

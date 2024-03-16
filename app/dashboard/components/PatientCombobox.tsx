@@ -53,15 +53,17 @@ const PatientCombobox: React.FC<PatientComboboxProps> = ({
           className="w-full justify-between"
         >
           {value
-            ? patients.find((patient) => patient.id === value)?.firstName
-            : "Select framework..."}
+            ? `${patients.find((patient) => patient.id === value)?.firstName} ${
+                patients.find((patient) => patient.id === value)?.lastName
+              }`
+            : "Select patients..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[462px] p-0">
         <Command>
-          <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandInput placeholder="Search patients..." />
+          <CommandEmpty>No patients found.</CommandEmpty>
           <CommandGroup>
             {patients.map((patient) => (
               <CommandItem
@@ -69,6 +71,7 @@ const PatientCombobox: React.FC<PatientComboboxProps> = ({
                 value={patient.id}
                 onSelect={(currentValue) => {
                   setValue(currentValue === value ? "" : currentValue);
+                  onChange(currentValue);
                   setOpen(false);
                 }}
               >

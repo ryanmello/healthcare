@@ -33,10 +33,11 @@ export default function RootLayout({
             forcedTheme="dark"
             storageKey="healthcare-theme"
           >
-            <div className="flex">
+            <main className="flex">
               <Sidebar />
               <div className="flex-1">{children}</div>
-            </div>
+              <Toaster position="top-center" richColors />
+            </main>
           </ThemeProvider>
         </body>
       </html>

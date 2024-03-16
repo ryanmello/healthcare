@@ -15,6 +15,8 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   firstName: z.string().min(2).max(50),
@@ -42,8 +44,14 @@ const CreatePatientModal = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await axios.post("/api/patient/create", values);
+      toast.success("Patient created");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong");
+    }
   };
 
   useEffect(() => {
@@ -148,7 +156,9 @@ const CreatePatientModal = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <DialogTrigger>
+              <Button type="submit">Submit</Button>
+            </DialogTrigger>
           </form>
         </Form>
       </DialogContent>

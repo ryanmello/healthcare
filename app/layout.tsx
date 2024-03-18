@@ -33,7 +33,7 @@ export default function RootLayout({
             forcedTheme="dark"
             storageKey="healthcare-theme"
           >
-            <main className="flex">
+            <main className="flex flex-col md:flex-row">
               <Sidebar />
               <div className="flex-1">{children}</div>
               <Toaster position="top-center" richColors />

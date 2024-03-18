@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  BarChart3,
   ChevronFirst,
   ChevronLast,
   CircleUserRound,
@@ -17,7 +16,6 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import SidebarItem from "./SidebarItem";
 import { User } from "@prisma/client";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,10 +23,10 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { UserButton } from "@clerk/nextjs";
 
 const SidebarBody = ({ user }: { user: User | null }) => {
   const [expanded, setExpanded] = useState(true);
@@ -79,15 +77,7 @@ const SidebarBody = ({ user }: { user: User | null }) => {
       </ul>
       <div className="flex justify-between items-center border-t border-slate-700 p-4">
         <div className="flex items-center">
-          {user?.image && (
-            <Image
-              src={user.image}
-              alt="image"
-              className="w-10 h-10 rounded-md"
-              height={100}
-              width={100}
-            />
-          )}
+          <UserButton />
           <div
             className={cn(
               "flex flex-col justify-center leading-4 cursor-default ml-2",

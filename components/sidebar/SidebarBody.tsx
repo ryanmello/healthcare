@@ -45,7 +45,7 @@ const SidebarBody = ({ user }: { user: User | null }) => {
           width={32}
           height={32}
         />
-        <button
+        {/* <button
           onClick={() => setExpanded(!expanded)}
           className={cn(
             "flex items-center justify-center",
@@ -53,7 +53,7 @@ const SidebarBody = ({ user }: { user: User | null }) => {
           )}
         >
           {expanded ? <ChevronFirst /> : <ChevronLast />}
-        </button>
+        </button> */}
       </div>
       <ul className="flex-1 px-3 mt-2">
         <SidebarItem

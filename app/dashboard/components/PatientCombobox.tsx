@@ -56,13 +56,13 @@ const PatientCombobox: React.FC<PatientComboboxProps> = ({
             ? `${patients.find((patient) => patient.id === value)?.firstName} ${
                 patients.find((patient) => patient.id === value)?.lastName
               }`
-            : "Select patients..."}
+            : "Select..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[462px] p-0">
         <Command>
-          <CommandInput placeholder="Search patients..." />
+          <CommandInput placeholder="Search..." />
           <CommandEmpty>No patients found.</CommandEmpty>
           <CommandGroup>
             {patients.map((patient) => (

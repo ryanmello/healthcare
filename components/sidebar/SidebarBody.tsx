@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   MoreVertical,
   Settings,
+  Calendar,
   User as UserIcon,
 } from "lucide-react";
 import Image from "next/image";
@@ -66,6 +67,12 @@ const SidebarBody = ({ user }: { user: User | null }) => {
           icon={LayoutDashboard}
           text="Dashboard"
           route="/dashboard"
+          expanded={expanded}
+        />
+        <SidebarItem
+          icon={Calendar}
+          text="Calendar"
+          route="/calendar"
           expanded={expanded}
         />
         <SidebarItem

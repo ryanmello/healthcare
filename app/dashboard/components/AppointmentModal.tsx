@@ -58,7 +58,6 @@ const CreateAppointmentModal = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const { patientId, userId, date, time, description } = values;
-      console.log(date);
       await axios.post("/api/appointment/create", values);
       toast.success("Appointment created");
     } catch (error) {

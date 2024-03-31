@@ -4,14 +4,13 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { patientId, userId, date, time, description } = data;
+    const { patientId, userId, date, description } = data;
 
     const appointment = await db.appointment.create({
       data: {
         patientId,
         userId,
         date,
-        time,
         description,
       },
     });

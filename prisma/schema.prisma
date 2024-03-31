@@ -45,7 +45,6 @@ model Appointment {
   userId      String   @db.ObjectId
   user        User     @relation(fields: [userId], references: [id])
   date        String
-  time        String
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

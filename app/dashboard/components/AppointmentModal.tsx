@@ -29,15 +29,13 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { TimePicker } from "@/components/time-picker/TimePicker";
-import { DateTimePicker } from "@/components/time-picker/DateTimePicker";
 
 const formSchema = z.object({
   patientId: z.string().min(2),
   userId: z.string().min(2),
-  date: z.date({
+  unformattedDate: z.date({
     required_error: "A date is required.",
   }),
-  time: z.string().min(2),
   description: z.string().min(2),
 });
 
@@ -49,7 +47,6 @@ const CreateAppointmentModal = ({
   users: User[];
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [date, setDate] = useState<Date | undefined>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,9 +54,17 @@ const CreateAppointmentModal = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const { patientId, userId, date, time, description } = values;
-      console.log(date);
-      await axios.post("/api/appointment/create", values);
+      const { patientId, userId, unformattedDate, description } = values;
+      const utcDateString = unformattedDate;
+      const utcDate = new Date(utcDateString);
+      const date = utcDate.toLocaleString();
+
+      await axios.post("/api/appointment/create", {
+        patientId,
+        userId,
+        date,
+        description,
+      });
       toast.success("Appointment created");
     } catch (error) {
       console.log(error);
@@ -125,43 +130,9 @@ const CreateAppointmentModal = ({
                 </FormItem>
               )}
             />
-            {/* <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-full pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value && format(field.value, "PPP")}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) => date < new Date()}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
             <FormField
               control={form.control}
-              name="date"
+              name="unformattedDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel className="text-left">Date</FormLabel>
@@ -171,7 +142,7 @@ const CreateAppointmentModal = ({
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-[280px] justify-start text-left font-normal",
+                            "w-full justify-start text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -184,7 +155,7 @@ const CreateAppointmentModal = ({
                         </Button>
                       </PopoverTrigger>
                     </FormControl>
-                    <PopoverContent className="w-auto p-0">
+                    <PopoverContent className="w-full p-0">
                       <Calendar
                         mode="single"
                         selected={field.value}
@@ -199,18 +170,6 @@ const CreateAppointmentModal = ({
                       </div>
                     </PopoverContent>
                   </Popover>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="time"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Time</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Time" {...field} />
-                  </FormControl>
                 </FormItem>
               )}
             />

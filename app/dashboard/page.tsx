@@ -4,8 +4,6 @@ import { getAppointments } from "../actions/get-appointments";
 import { getPatients } from "../actions/get-patients";
 import PatientModal from "./components/PatientModal";
 import { getUsers } from "../actions/get-users";
-import { Trash } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import AppointmentCard from "./components/AppointmentCard";
 
 const Dashboard = async () => {

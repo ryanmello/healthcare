@@ -4,6 +4,9 @@ import { getAppointments } from "../actions/get-appointments";
 import { getPatients } from "../actions/get-patients";
 import PatientModal from "./components/PatientModal";
 import { getUsers } from "../actions/get-users";
+import { Trash } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import AppointmentCard from "./components/AppointmentCard";
 
 const Dashboard = async () => {
   const appointments = await getAppointments();
@@ -19,17 +22,7 @@ const Dashboard = async () => {
             <AppointmentModal patients={patients} users={users} />
           </div>
           {appointments.map((appointment) => (
-            <div
-              key={appointment.id}
-              className="p-2 border-2 border-slate-800 mb-2 rounded-md"
-            >
-              <p>
-                {appointment.patient.firstName} {appointment.patient.lastName}
-              </p>
-              <p>
-                {appointment.user.firstName} {appointment.user.lastName}
-              </p>
-            </div>
+            <AppointmentCard key={appointment.id} appointment={appointment} />
           ))}
         </div>
       </div>

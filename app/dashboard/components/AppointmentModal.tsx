@@ -29,6 +29,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { TimePicker } from "@/components/time-picker/TimePicker";
+import { FullAppointment } from "@/config";
 
 const formSchema = z.object({
   patientId: z.string().min(2),
@@ -39,12 +40,16 @@ const formSchema = z.object({
   description: z.string().min(2),
 });
 
-const CreateAppointmentModal = ({
+const AppointmentModal = ({
   patients,
   users,
+  updateAppointment,
+  appointment,
 }: {
-  patients: Patient[];
-  users: User[];
+  patients?: Patient[];
+  users?: User[];
+  updateAppointment: boolean;
+  appointment?: FullAppointment;
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -97,15 +102,17 @@ const CreateAppointmentModal = ({
                 <FormItem>
                   <FormLabel>Patient</FormLabel>
                   <FormControl>
-                    <PatientCombobox
-                      patients={patients}
-                      onChange={field.onChange}
-                      passedValue={field.value}
-                      name={field.name}
-                      onBlur={field.onBlur}
-                      disabled={field.disabled}
-                      ref={field.ref}
-                    />
+                    {patients && (
+                      <PatientCombobox
+                        patients={patients}
+                        onChange={field.onChange}
+                        passedValue={field.value}
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        disabled={field.disabled}
+                        ref={field.ref}
+                      />
+                    )}
                   </FormControl>
                 </FormItem>
               )}
@@ -117,15 +124,17 @@ const CreateAppointmentModal = ({
                 <FormItem>
                   <FormLabel>User</FormLabel>
                   <FormControl>
-                    <PatientCombobox
-                      patients={users}
-                      onChange={field.onChange}
-                      passedValue={field.value}
-                      name={field.name}
-                      onBlur={field.onBlur}
-                      disabled={field.disabled}
-                      ref={field.ref}
-                    />
+                    {users && (
+                      <PatientCombobox
+                        patients={users}
+                        onChange={field.onChange}
+                        passedValue={field.value}
+                        name={field.name}
+                        onBlur={field.onBlur}
+                        disabled={field.disabled}
+                        ref={field.ref}
+                      />
+                    )}
                   </FormControl>
                 </FormItem>
               )}
@@ -193,4 +202,4 @@ const CreateAppointmentModal = ({
   );
 };
 
-export default CreateAppointmentModal;
+export default AppointmentModal;

@@ -7,8 +7,14 @@ import axios from "axios";
 import { Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import AppointmentModal from "./AppointmentModal";
+import { Patient, User } from "@prisma/client";
 
-const AppointmentCard = ({ appointment }: { appointment: FullAppointment }) => {
+interface AppointmentCardProps {
+  appointment: FullAppointment;
+}
+
+const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -38,9 +44,16 @@ const AppointmentCard = ({ appointment }: { appointment: FullAppointment }) => {
         {appointment.user.firstName} {appointment.user.lastName}
       </p>
       <p>{appointment.date}</p>
-      <Button variant="ghost">
-        <Pencil size={18} />
-      </Button>
+      <Dialog>
+        <DialogTrigger>
+          <Button variant="ghost">
+            <Pencil size={18} />
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <AppointmentModal updateAppointment={true} appointment={appointment} />
+        </DialogContent>
+      </Dialog>
       <Dialog>
         <DialogTrigger>
           <Button variant="ghost">

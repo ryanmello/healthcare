@@ -66,6 +66,7 @@ const EditAppointmentForm = ({
       const date = utcDate.toLocaleString();
 
       await axios.post("/api/appointment/update", {
+        appointmentId: appointment.id,
         patientId,
         userId,
         date,

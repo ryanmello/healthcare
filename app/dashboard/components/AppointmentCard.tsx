@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import AppointmentModal from "./AppointmentModal";
 import { Patient, User } from "@prisma/client";
+import EditAppointmentForm from "./EditAppointmentForm";
 
 interface AppointmentCardProps {
   appointment: FullAppointment;
@@ -51,7 +52,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <AppointmentModal updateAppointment={true} appointment={appointment} />
+          <EditAppointmentForm />
         </DialogContent>
       </Dialog>
       <Dialog>

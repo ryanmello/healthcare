@@ -43,13 +43,9 @@ const formSchema = z.object({
 const AppointmentModal = ({
   patients,
   users,
-  updateAppointment,
-  appointment,
 }: {
   patients?: Patient[];
   users?: User[];
-  updateAppointment: boolean;
-  appointment?: FullAppointment;
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 

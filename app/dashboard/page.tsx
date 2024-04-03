@@ -20,7 +20,6 @@ const Dashboard = async () => {
             <AppointmentModal
               patients={patients}
               users={users}
-              updateAppointment={false}
             />
           </div>
           {appointments.map((appointment) => (

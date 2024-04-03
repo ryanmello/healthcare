@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { CalendarIcon, PlusIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,7 +12,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import PatientCombobox from "./PatientCombobox";
 import { Patient, User } from "@prisma/client";
@@ -53,6 +51,11 @@ const EditAppointmentForm = ({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      patientId: appointment.patientId,
+      userId: appointment.userId,
+      description: appointment.description,
+    },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -62,13 +65,13 @@ const EditAppointmentForm = ({
       const utcDate = new Date(utcDateString);
       const date = utcDate.toLocaleString();
 
-      await axios.post("/api/appointment/create", {
+      await axios.post("/api/appointment/update", {
         patientId,
         userId,
         date,
         description,
       });
-      toast.success("Appointment created");
+      toast.success("Appointment update");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");

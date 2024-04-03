@@ -24,11 +24,11 @@ export const MOBILE_NAV_LINKS = [
 ];
 
 export type FullAppointment = {
-  id: String;
-  date: String;
-  description: String;
+  id: string;
+  date: string;
+  description: string;
   user: User;
-  userId: String;
+  userId: string;
   patient: Patient;
-  patientId: String;
+  patientId: string;
 };

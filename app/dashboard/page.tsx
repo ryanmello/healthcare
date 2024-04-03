@@ -23,7 +23,7 @@ const Dashboard = async () => {
             />
           </div>
           {appointments.map((appointment) => (
-            <AppointmentCard key={appointment.id} appointment={appointment} />
+            <AppointmentCard key={appointment.id} appointment={appointment} patients={patients} users={users} />
           ))}
         </div>
       </div>

@@ -7,15 +7,20 @@ import axios from "axios";
 import { Pencil, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import AppointmentModal from "./AppointmentModal";
 import { Patient, User } from "@prisma/client";
 import EditAppointmentForm from "./EditAppointmentForm";
 
 interface AppointmentCardProps {
   appointment: FullAppointment;
+  patients: Patient[];
+  users: User[];
 }
 
-const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
+const AppointmentCard: React.FC<AppointmentCardProps> = ({
+  appointment,
+  patients,
+  users,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -52,7 +57,11 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <EditAppointmentForm />
+          <EditAppointmentForm
+            patients={patients}
+            users={users}
+            appointment={appointment}
+          />
         </DialogContent>
       </Dialog>
       <Dialog>

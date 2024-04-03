@@ -44,8 +44,8 @@ const AppointmentModal = ({
   patients,
   users,
 }: {
-  patients?: Patient[];
-  users?: User[];
+  patients: Patient[];
+  users: User[];
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -98,17 +98,15 @@ const AppointmentModal = ({
                 <FormItem>
                   <FormLabel>Patient</FormLabel>
                   <FormControl>
-                    {patients && (
-                      <PatientCombobox
-                        patients={patients}
-                        onChange={field.onChange}
-                        passedValue={field.value}
-                        name={field.name}
-                        onBlur={field.onBlur}
-                        disabled={field.disabled}
-                        ref={field.ref}
-                      />
-                    )}
+                    <PatientCombobox
+                      patients={patients}
+                      onChange={field.onChange}
+                      passedValue={field.value}
+                      name={field.name}
+                      onBlur={field.onBlur}
+                      disabled={field.disabled}
+                      ref={field.ref}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -120,17 +118,15 @@ const AppointmentModal = ({
                 <FormItem>
                   <FormLabel>User</FormLabel>
                   <FormControl>
-                    {users && (
-                      <PatientCombobox
-                        patients={users}
-                        onChange={field.onChange}
-                        passedValue={field.value}
-                        name={field.name}
-                        onBlur={field.onBlur}
-                        disabled={field.disabled}
-                        ref={field.ref}
-                      />
-                    )}
+                    <PatientCombobox
+                      patients={users}
+                      onChange={field.onChange}
+                      passedValue={field.value}
+                      name={field.name}
+                      onBlur={field.onBlur}
+                      disabled={field.disabled}
+                      ref={field.ref}
+                    />
                   </FormControl>
                 </FormItem>
               )}

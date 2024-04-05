@@ -53,6 +53,7 @@ const EditAppointmentForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       patientId: appointment.patientId,
+      unformattedDate: new Date(appointment.date),
       userId: appointment.userId,
       description: appointment.description,
     },

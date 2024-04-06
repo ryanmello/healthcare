@@ -46,7 +46,7 @@ const SidebarBody = ({ user }: { user: User | null }) => {
           width={32}
           height={32}
         />
-        {/* <button
+        <button
           onClick={() => setExpanded(!expanded)}
           className={cn(
             "flex items-center justify-center",
@@ -54,9 +54,9 @@ const SidebarBody = ({ user }: { user: User | null }) => {
           )}
         >
           {expanded ? <ChevronFirst /> : <ChevronLast />}
-        </button> */}
+        </button>
       </div>
-      <ul className="flex-1 px-3 mt-2">
+      <ul className={cn("flex-1 px-3 mt-2", !expanded && "px-5")}>
         <SidebarItem
           icon={HomeIcon}
           text="Home"
@@ -83,7 +83,7 @@ const SidebarBody = ({ user }: { user: User | null }) => {
         />
       </ul>
       <div className="flex justify-between items-center border-t border-slate-700 p-4">
-        <div className="flex items-center">
+        <div className={cn("flex items-center", !expanded && "px-3")}>
           <UserButton />
           <div
             className={cn(

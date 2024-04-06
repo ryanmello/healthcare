@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { FullAppointment } from "@/config";
 import axios from "axios";
-import { Pencil, Trash } from "lucide-react";
+import { Check, Pencil, PersonStandingIcon, Trash } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Patient, User } from "@prisma/client";
 import EditAppointmentForm from "./EditAppointmentForm";
+import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 interface AppointmentCardProps {
   appointment: FullAppointment;
@@ -41,19 +43,89 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     }
   };
 
+  const handleComplete = () => {};
+
+  const initialDate = new Date(appointment.date);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  var monthName = months[initialDate.getMonth()];
+  var dayNumber = initialDate.getDate();
+  var yearNumber = initialDate.getFullYear();
+
+  var startTimeHours = initialDate.getHours();
+  var startTimeMinutes = initialDate.getMinutes();
+  var startTimePeriod = startTimeHours >= 12 ? "PM" : "AM";
+  startTimeHours = startTimeHours % 12 || 12;
+  var startTime =
+    startTimeHours +
+    ":" +
+    (startTimeMinutes < 10 ? "0" : "") +
+    startTimeMinutes +
+    " " +
+    startTimePeriod;
+
+  var endTime = new Date(initialDate.getTime() + 20 * 60000);
+
+  var endTimeHours = endTime.getHours();
+  var endTimeMinutes = endTime.getMinutes();
+  var endTimePeriod = endTimeHours >= 12 ? "PM" : "AM";
+  endTimeHours = endTimeHours % 12 || 12;
+  var endTimeString =
+    endTimeHours +
+    ":" +
+    (endTimeMinutes < 10 ? "0" : "") +
+    endTimeMinutes +
+    " " +
+    endTimePeriod;
+
+  var timeRange = startTime + " - " + endTimeString;
+  var formattedDateString = monthName + " " + dayNumber + ", " + yearNumber;
+
   return (
-    <div className="p-2 border-2 border-slate-800 mb-2 rounded-md">
-      <p>
+    <div className="p-4 border-2 border-slate-800 mb-2 rounded-md">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="font-semibold">{timeRange}</p>
+          <p className="font-light text-slate-400">{formattedDateString}</p>
+        </div>
+        {appointment.patient.image ? (
+          <Image src={appointment.patient.image} alt="Image" />
+        ) : (
+          <PersonStandingIcon />
+        )}
+      </div>
+      <Separator className="my-2" />
+      <p className="font-semibold">
         {appointment.patient.firstName} {appointment.patient.lastName}
       </p>
-      <p>
+      <p className="font-light text-slate-400">
         {appointment.user.firstName} {appointment.user.lastName}
       </p>
-      <p>{appointment.date}</p>
+      <Separator className="my-2" />
+      <p className="font-light text-slate-400">{appointment.description}</p>
+      <Separator className="my-2" />
+
       <Dialog>
         <DialogTrigger>
-          <Button variant="ghost">
-            <Pencil size={18} />
+          <Button
+            variant="ghost"
+            className="space-x-2 border-[1px] border-slate-700 rounded-md mr-2"
+          >
+            <p className="font-semibold">Edit</p>
+            <Pencil size={14} />
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -66,8 +138,12 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
       </Dialog>
       <Dialog>
         <DialogTrigger>
-          <Button variant="ghost">
-            <Trash size={18} />
+          <Button
+            variant="ghost"
+            className="space-x-2 border-[1px] border-slate-700 rounded-md mr-2"
+          >
+            <p className="font-semibold">Delete</p>
+            <Trash size={14} />
           </Button>
         </DialogTrigger>
         <DialogContent>
@@ -79,6 +155,27 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               onClick={handleDelete}
             >
               Delete
+            </Button>
+          </DialogTrigger>
+        </DialogContent>
+      </Dialog>
+      <Dialog>
+        <DialogTrigger>
+          <Button
+            variant="ghost"
+            className="space-x-2 border-[1px] border-slate-700 rounded-md"
+          >
+            <p className="font-semibold">Complete</p>
+            <Check size={14} />
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <p className="w-2/3">
+            Are you sure you want to mark this appointment as completed?
+          </p>
+          <DialogTrigger className="w-full flex">
+            <Button className="w-1/3 ml-auto" onClick={handleComplete}>
+              Confirm
             </Button>
           </DialogTrigger>
         </DialogContent>

@@ -43,7 +43,15 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     }
   };
 
-  const handleComplete = () => {};
+  const handleComplete = async () => {
+    try {
+      const appointmentId = appointment.id;
+      await axios.post("/api/appointment/update/archive", { appointmentId });
+      toast.success("Appointment completed");
+    } catch (error) {
+      toast.error("Something went wrong.");
+    }
+  };
 
   const initialDate = new Date(appointment.date);
   const months = [

@@ -6,20 +6,16 @@ export const MOBILE_NAV_LINKS = [
     href: "/",
   },
   {
-    label: "ABOUT",
-    href: "/about",
+    label: "DASHBOARD",
+    href: "/dashboard",
   },
   {
-    label: "SCHEDULE",
-    href: "/schedule",
+    label: "CALENDAR",
+    href: "/calendar",
   },
   {
-    label: "TICKETS",
-    href: "/tickets",
-  },
-  {
-    label: "SHOP",
-    href: "/shop",
+    label: "USERS",
+    href: "/users",
   },
 ];
 

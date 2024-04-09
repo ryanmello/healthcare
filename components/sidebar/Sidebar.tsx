@@ -4,7 +4,6 @@ import { getUser } from "@/app/actions/get-user";
 import MobileNavbar from "./MobileNavbar";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
-import MaxWidthWrapper from "../MaxWidthWrapper";
 
 const Sidebar = async () => {
   const { userId } = auth();

@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function Post(req: Request) {
+export async function POST(req: Request) {
   try {
     const data = await req.json();
     const { userId, firstName, lastName } = data;

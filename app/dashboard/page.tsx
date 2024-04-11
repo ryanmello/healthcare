@@ -14,7 +14,7 @@ const Dashboard = async () => {
 
   return (
     <MaxWidthWrapper className="flex flex-col md:flex-row mt-4">
-      <div className="w-full md:w-1/3">
+      <div className="w-full md:w-1/3 xl:w-2/3">
         <div className="px-2">
           <div className="flex items-center justify-between my-4 bg-slate-800 p-2 rounded-md ring-[1px] ring-slate-700">
             <h2 className="font-semibold">Upcoming appointments</h2>

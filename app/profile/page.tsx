@@ -1,4 +1,3 @@
-import React from "react";
 import EditNameForm from "./components/EditNameForm";
 import { getUser } from "../actions/get-user";
 import { auth } from "@clerk/nextjs";

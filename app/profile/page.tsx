@@ -1,9 +1,16 @@
 import React from 'react'
+import EditNameForm from './components/EditNameForm'
+import { getUser } from '../actions/get-user'
+import { auth } from '@clerk/nextjs';
 
-const Profile = () => {
+const Profile = async () => {
+  const { userId } = auth();
+  const user = await getUser({ userId });
   return (
     <div>
-      Profile
+      {user != null && (
+    <EditNameForm user={user}/>
+  )}
     </div>
   )
 }

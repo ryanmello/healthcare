@@ -22,7 +22,7 @@ const MobileSidebar = () => {
               <div key={link.href}>
                 <SheetClose asChild>
                   <Link href={link.href}>
-                    <p className="text-xl text-amber-50 font-semibold hover:underline">
+                    <p className="text-xl font-semibold hover:underline">
                       {link.label}
                     </p>
                   </Link>
@@ -30,7 +30,6 @@ const MobileSidebar = () => {
               </div>
             ))}
             <Separator />
-            
           </div>
         </SheetContent>
       </Sheet>

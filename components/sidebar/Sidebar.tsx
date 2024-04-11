@@ -14,17 +14,17 @@ const Sidebar = async () => {
       <nav className="hidden h-full md:flex flex-col bg-slate-900 border-r shadow-sm">
         <SidebarBody user={user} />
       </nav>
-      <nav className="flex items-center justify-between bg-slate-800 h-14 px-2.5">
-        <MobileNavbar />
-        <Image
-          src={logo}
-          alt="image"
-          className="overflow-hidden transition-all"
-          width={32}
-          height={32}
-        />
-        <UserButton />
-      </nav>
+        <nav className="block md:hidden items-center justify-between bg-slate-800 h-14 px-2.5">
+          <MobileNavbar />
+          <Image
+            src={logo}
+            alt="image"
+            className="overflow-hidden transition-all"
+            width={32}
+            height={32}
+          />
+          <UserButton />
+        </nav>
     </aside>
   );
 };

@@ -13,6 +13,10 @@ export async function POST(req: Request) {
         date,
         description,
       },
+      include: {
+        patient: true,
+        user: true,
+      },
     });
 
     return NextResponse.json(appointment);

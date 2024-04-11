@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CalendarIcon, PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -43,9 +43,11 @@ const formSchema = z.object({
 const AppointmentModal = ({
   patients,
   users,
+  setCurrentAppointments,
 }: {
   patients: Patient[];
   users: User[];
+  setCurrentAppointments: Dispatch<SetStateAction<FullAppointment[]>>;
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -60,12 +62,20 @@ const AppointmentModal = ({
       const utcDate = new Date(utcDateString);
       const date = utcDate.toLocaleString();
 
-      await axios.post("/api/appointment/create", {
+      const response = await axios.post("/api/appointment/create", {
         patientId,
         userId,
         date,
         description,
       });
+
+      // add appointment to currentAppointments
+      const newAppointment = response.data;
+      setCurrentAppointments((prevAppointments) => [
+        ...prevAppointments,
+        newAppointment,
+      ]);
+
       toast.success("Appointment created");
     } catch (error) {
       console.log(error);
@@ -186,7 +196,9 @@ const AppointmentModal = ({
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <DialogTrigger>
+              <Button type="submit">Submit</Button>
+            </DialogTrigger>
           </form>
         </Form>
       </DialogContent>

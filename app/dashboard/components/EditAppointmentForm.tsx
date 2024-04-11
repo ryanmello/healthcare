@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { TimePicker } from "@/components/time-picker/TimePicker";
 import { FullAppointment } from "@/config";
+import { DialogTrigger } from "@/components/ui/dialog";
 
 const formSchema = z.object({
   patientId: z.string().min(2),
@@ -41,21 +42,23 @@ const formSchema = z.object({
 const EditAppointmentForm = ({
   patients,
   users,
-  appointment,
+  currentAppointment,
+  setCurrentAppointment,
 }: {
   patients: Patient[];
   users: User[];
-  appointment: FullAppointment;
+  currentAppointment: FullAppointment;
+  setCurrentAppointment: Dispatch<SetStateAction<FullAppointment>>;
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      patientId: appointment.patientId,
-      unformattedDate: new Date(appointment.date),
-      userId: appointment.userId,
-      description: appointment.description,
+      patientId: currentAppointment.patientId,
+      unformattedDate: new Date(currentAppointment.date),
+      userId: currentAppointment.userId,
+      description: currentAppointment.description,
     },
   });
 
@@ -66,14 +69,28 @@ const EditAppointmentForm = ({
       const utcDate = new Date(utcDateString);
       const date = utcDate.toLocaleString();
 
+      // Send request to update the appointment
       await axios.post("/api/appointment/update", {
-        appointmentId: appointment.id,
+        appointmentId: currentAppointment.id,
         patientId,
         userId,
         date,
         description,
       });
-      toast.success("Appointment update");
+
+      // Create updated appointment object
+      const updatedAppointment = {
+        ...currentAppointment,
+        patientId,
+        userId,
+        date,
+        description,
+      };
+
+      // Update current appointment state with the updated appointment
+      setCurrentAppointment(updatedAppointment);
+
+      toast.success("Appointment updated");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -187,7 +204,9 @@ const EditAppointmentForm = ({
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <DialogTrigger>
+          <Button type="submit">Submit</Button>
+        </DialogTrigger>
       </form>
     </Form>
   );

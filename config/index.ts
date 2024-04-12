@@ -23,6 +23,7 @@ export type FullAppointment = {
   id: string;
   date: string;
   description: string;
+  duration: number;
   user: User;
   userId: string;
   patient: Patient;

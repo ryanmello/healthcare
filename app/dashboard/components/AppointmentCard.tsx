@@ -62,61 +62,30 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     }
   };
 
-  const initialDate = new Date(currentAppointment.date);
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  let startDate = new Date(appointment.date);
+  let endDate = new Date(startDate.getTime() + appointment.duration * 60000);
+  let startTime = startDate.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  let endTime = endDate.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
-  var monthName = months[initialDate.getMonth()];
-  var dayNumber = initialDate.getDate();
-  var yearNumber = initialDate.getFullYear();
-
-  var startTimeHours = initialDate.getHours();
-  var startTimeMinutes = initialDate.getMinutes();
-  var startTimePeriod = startTimeHours >= 12 ? "PM" : "AM";
-  startTimeHours = startTimeHours % 12 || 12;
-  var startTime =
-    startTimeHours +
-    ":" +
-    (startTimeMinutes < 10 ? "0" : "") +
-    startTimeMinutes +
-    " " +
-    startTimePeriod;
-
-  var endTime = new Date(initialDate.getTime() + 20 * 60000);
-
-  var endTimeHours = endTime.getHours();
-  var endTimeMinutes = endTime.getMinutes();
-  var endTimePeriod = endTimeHours >= 12 ? "PM" : "AM";
-  endTimeHours = endTimeHours % 12 || 12;
-  var endTimeString =
-    endTimeHours +
-    ":" +
-    (endTimeMinutes < 10 ? "0" : "") +
-    endTimeMinutes +
-    " " +
-    endTimePeriod;
-
-  var timeRange = startTime + " - " + endTimeString;
-  var formattedDateString = monthName + " " + dayNumber + ", " + yearNumber;
+  let formattedAppointmentTime = `${startTime} - ${endTime}`;
+  let formattedDate = startDate.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
   return (
     <div className="p-4 border-2 border-slate-800 mb-2 rounded-md">
       <div className="flex items-center justify-between">
         <div>
-          <p className="font-semibold">{timeRange}</p>
-          <p className="font-light text-slate-400">{formattedDateString}</p>
+          <p className="font-semibold">{formattedAppointmentTime}</p>
+          <p className="font-light text-slate-400">{formattedDate}</p>
         </div>
         {currentAppointment.patient.image ? (
           <Image src={currentAppointment.patient.image} alt="Image" />

@@ -29,6 +29,13 @@ import { format } from "date-fns";
 import { TimePicker } from "@/components/time-picker/TimePicker";
 import { FullAppointment } from "@/config";
 import { DialogTrigger } from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   patientId: z.string().min(2),
@@ -37,6 +44,7 @@ const formSchema = z.object({
     required_error: "A date is required.",
   }),
   description: z.string().min(2),
+  unformattedDuration: z.string().min(2),
 });
 
 const EditAppointmentForm = ({
@@ -64,21 +72,27 @@ const EditAppointmentForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const { patientId, userId, unformattedDate, description } = values;
+      const {
+        patientId,
+        userId,
+        unformattedDate,
+        description,
+        unformattedDuration,
+      } = values;
       const utcDateString = unformattedDate;
       const utcDate = new Date(utcDateString);
       const date = utcDate.toLocaleString();
+      const duration = parseInt(unformattedDuration);
 
-      // Send request to update the appointment
       await axios.post("/api/appointment/update", {
         appointmentId: currentAppointment.id,
         patientId,
         userId,
         date,
         description,
+        duration,
       });
 
-      // Create updated appointment object
       const updatedAppointment = {
         ...currentAppointment,
         patientId,
@@ -87,9 +101,7 @@ const EditAppointmentForm = ({
         description,
       };
 
-      // Update current appointment state with the updated appointment
       setCurrentAppointment(updatedAppointment);
-
       toast.success("Appointment updated");
     } catch (error) {
       console.log(error);
@@ -152,46 +164,83 @@ const EditAppointmentForm = ({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="unformattedDate"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="text-left">Date</FormLabel>
-              <Popover>
-                <FormControl>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {field.value ? (
-                        format(field.value, "PPP HH:mm:ss")
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                    </Button>
-                  </PopoverTrigger>
-                </FormControl>
-                <PopoverContent className="w-full p-0">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    initialFocus
-                  />
-                  <div className="p-3 border-t border-border">
-                    <TimePicker setDate={field.onChange} date={field.value} />
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </FormItem>
-          )}
-        />
+        <div className="flex items-center">
+          <div className="w-2/3 mt-[10px] pr-2">
+            <FormField
+              control={form.control}
+              name="unformattedDate"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel className="text-left">Date</FormLabel>
+                  <Popover>
+                    <FormControl>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="mr-2 h-4 w-4" />
+                          {field.value ? (
+                            format(field.value, "PPP HH:mm:ss")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                    </FormControl>
+                    <PopoverContent className="w-full p-0">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                      />
+                      <div className="p-3 border-t border-border">
+                        <TimePicker
+                          setDate={field.onChange}
+                          date={field.value}
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="w-1/3">
+            <FormField
+              control={form.control}
+              name="unformattedDuration"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Duration</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={currentAppointment.duration.toString()}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="10">10 minutes</SelectItem>
+                      <SelectItem value="20">20 minutes</SelectItem>
+                      <SelectItem value="30">30 minutes</SelectItem>
+                      <SelectItem value="40">40 minutes</SelectItem>
+                      <SelectItem value="50">50 minutes</SelectItem>
+                      <SelectItem value="60">60 minutes</SelectItem>
+                      <SelectItem value="90">90 minutes</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
         <FormField
           control={form.control}
           name="description"

@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { appointmentId, patientId, userId, date, description } = data;
+    const { appointmentId, patientId, userId, date, description, duration } =
+      data;
 
     const appointment = await db.appointment.update({
       where: {
@@ -15,6 +16,7 @@ export async function POST(req: Request) {
         userId,
         date,
         description,
+        duration,
       },
     });
 

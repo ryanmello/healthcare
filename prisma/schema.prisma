@@ -45,6 +45,7 @@ model Appointment {
   userId      String   @db.ObjectId
   user        User     @relation(fields: [userId], references: [id])
   date        String
+  duration    String?
   description String
   archived    Boolean  @default(false)
   createdAt   DateTime @default(now())

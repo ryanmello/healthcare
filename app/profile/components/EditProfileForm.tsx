@@ -17,8 +17,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 
-
-interface EditNameFormProps {
+interface EditProfileFormProps {
   user: User;
 }
 
@@ -29,20 +28,20 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const EditNameForm: React.FC<EditNameFormProps> = ({ user }) => {
+const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: user.firstName ?? '',
-      lastName: user.lastName ?? '',
+      firstName: user.firstName ?? "",
+      lastName: user.lastName ?? "",
     },
   });
 
   const onSubmit = async (values: FormValues) => {
     try {
-      const response = await axios.post("/api/user/update", {
+      await axios.post("/api/user/update", {
         userId: user.id,
         ...values,
       });
@@ -94,4 +93,4 @@ const EditNameForm: React.FC<EditNameFormProps> = ({ user }) => {
   );
 };
 
-export default EditNameForm;
+export default EditProfileForm;

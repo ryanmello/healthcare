@@ -14,7 +14,7 @@ const Sidebar = async () => {
       <nav className="hidden h-full md:flex flex-col bg-slate-900 border-r shadow-sm">
         <SidebarBody user={user} />
       </nav>
-        <nav className="flex md:hidden items-center justify-between bg-slate-800 h-14 px-2.5">
+        <nav className="flex md:hidden items-center justify-between bg-slate-900 h-14 px-2.5">
           <MobileNavbar />
           <Image
             src={logo}

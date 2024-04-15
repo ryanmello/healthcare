@@ -28,6 +28,7 @@ import {
 } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
+import { NAV_LINKS } from "@/config";
 
 const SidebarBody = ({ user }: { user: User | null }) => {
   const [expanded, setExpanded] = useState(true);
@@ -57,30 +58,15 @@ const SidebarBody = ({ user }: { user: User | null }) => {
         </button>
       </div>
       <ul className={cn("flex-1 px-3 mt-2", !expanded && "px-5")}>
-        <SidebarItem
-          icon={HomeIcon}
-          text="Home"
-          route="/"
-          expanded={expanded}
-        />
-        <SidebarItem
-          icon={LayoutDashboard}
-          text="Dashboard"
-          route="/dashboard"
-          expanded={expanded}
-        />
-        <SidebarItem
-          icon={Calendar}
-          text="Calendar"
-          route="/calendar"
-          expanded={expanded}
-        />
-        <SidebarItem
-          icon={CircleUserRound}
-          text="Users"
-          route="/users"
-          expanded={expanded}
-        />
+        {NAV_LINKS.map((link, index) => (
+          <SidebarItem
+            key={index}
+            icon={link.icon}
+            text={link.label}
+            route={link.href}
+            expanded={expanded}
+          />
+        ))}
       </ul>
       <div className="flex justify-between items-center border-t border-slate-700 p-4">
         <div className={cn("flex items-center", !expanded && "px-3")}>

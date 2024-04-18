@@ -1,9 +1,7 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getAppointments } from "../actions/get-appointments";
 import { getPatients } from "../actions/get-patients";
-import PatientModal from "./components/PatientModal";
 import { getUsers } from "../actions/get-users";
-import { Suspense } from "react";
 import AppointmentsTab from "./components/AppointmentsTab";
 
 const Dashboard = async () => {

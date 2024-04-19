@@ -28,11 +28,6 @@ export const NAV_LINKS = [
     href: "/calendar",
     icon: Calendar,
   },
-  {
-    label: "Users",
-    href: "/users",
-    icon: ContactIcon,
-  },
 ];
 
 export const MOBILE_NAV_LINKS = [
@@ -51,10 +46,6 @@ export const MOBILE_NAV_LINKS = [
   {
     label: "CALENDAR",
     href: "/calendar",
-  },
-  {
-    label: "USERS",
-    href: "/users",
   },
 ];
 

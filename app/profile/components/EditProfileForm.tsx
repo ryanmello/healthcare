@@ -22,25 +22,32 @@ interface EditProfileFormProps {
 }
 
 const formSchema = z.object({
+  id: z.string(),
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
+  email: z.string().min(1, "Email is required"),
+  phone: z.string().min(1, "Phone number is required"),
+  role: z.string().min(1, "Role is required"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
   const [isMounted, setIsMounted] = useState(false);
-
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      id: user.id ?? "",
       firstName: user.firstName ?? "",
       lastName: user.lastName ?? "",
+      email: user.email ?? "",
+      phone: user.phone ?? "",
+      role: user.role ?? "",
     },
   });
 
   const onSubmit = async (values: FormValues) => {
-    try {
+    try {    
       await axios.post("/api/user/update", {
         userId: user.id,
         ...values,
@@ -65,6 +72,18 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
+          name="id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ID Number</FormLabel>
+              <FormControl>
+                <Input {...field} readOnly />
+              </FormControl>
+            </FormItem>
+          )}    
+        />
+        <FormField
+          control={form.control}
           name="firstName"
           render={({ field }) => (
             <FormItem>
@@ -87,7 +106,43 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Update Name</Button>
+        <FormField
+          control={form.control} // would like this in a dropdown menu format instead, but this will do for now
+          name="role"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Role</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+            </FormItem>
+          )}    
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>E-mail</FormLabel>
+              <FormControl>
+              <Input {...field} readOnly />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+            </FormItem>
+          )}    
+        />
+        <Button type="submit">Update Profile</Button>
       </form>
     </Form>
   );

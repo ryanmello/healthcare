@@ -12,7 +12,7 @@ const Profile = async () => {
       {user && (
         <div>
           <div className="w-1/2">
-            <p className="text-lg font-semibold mb-2">Edit Profile</p>
+            <h1 className="text-lg font-semibold mb-2">Welcome, {user.firstName} to your profile.</h1>
             <EditProfileForm user={user} />
           </div>
         </div>

@@ -47,7 +47,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
   });
 
   const onSubmit = async (values: FormValues) => {
-    try {    
+    try {
       await axios.post("/api/user/update", {
         userId: user.id,
         ...values,
@@ -80,7 +80,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
                 <Input {...field} readOnly />
               </FormControl>
             </FormItem>
-          )}    
+          )}
         />
         <FormField
           control={form.control}
@@ -116,7 +116,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
                 <Input {...field} />
               </FormControl>
             </FormItem>
-          )}    
+          )}
         />
         <FormField
           control={form.control}
@@ -125,7 +125,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
             <FormItem>
               <FormLabel>E-mail</FormLabel>
               <FormControl>
-              <Input {...field} readOnly />
+                <Input {...field} readOnly />
               </FormControl>
             </FormItem>
           )}
@@ -140,7 +140,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
                 <Input {...field} />
               </FormControl>
             </FormItem>
-          )}    
+          )}
         />
         <Button type="submit">Update Profile</Button>
       </form>

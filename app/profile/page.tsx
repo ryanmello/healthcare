@@ -11,7 +11,7 @@ const Profile = async () => {
     <MaxWidthWrapper className="mt-4">
       {user && (
         <div>
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <h1 className="text-lg font-semibold mb-2">Welcome, {user.firstName} to your profile.</h1>
             <EditProfileForm user={user} />
           </div>

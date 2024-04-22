@@ -59,12 +59,12 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      id: user.id ?? "",
+      id: user.id,
       firstName: user.firstName ?? "",
       lastName: user.lastName ?? "",
-      email: user.email ?? "",
+      email: user.email,
       phone: user.phone ?? "",
-      role: user.role ?? "",
+      role: user.role,
     },
   });
 

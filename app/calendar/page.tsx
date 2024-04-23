@@ -1,9 +1,13 @@
-const Calendar = () => {
-  return (
-    <div>
-      Calendar
-    </div>
-  )
-}
+import React from 'react';
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import CalendarComponent from './components/CalendarComponent';
 
-export default Calendar
+const CalendarPage: React.FC = () => {
+  return (
+    <MaxWidthWrapper>
+      <CalendarComponent />
+    </MaxWidthWrapper>
+  );
+};
+
+export default CalendarPage;

@@ -1,32 +1,33 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { format, isSameDay, parseISO, startOfToday, eachDayOfInterval, endOfMonth, add, isToday, startOfMonth } from 'date-fns';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Patient, Appointment } from "@prisma/client";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  format,
+  isSameDay,
+  parseISO,
+  startOfToday,
+  eachDayOfInterval,
+  endOfMonth,
+  add,
+  isToday,
+  startOfMonth,
+} from "date-fns";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { FullAppointment } from "@/config";
+import AppointmentCard from "./AppointmentCard";
 
-interface ExtendedAppointment extends Appointment {
-  patient: Patient;
-}
-
-const CalendarComponent: React.FC = () => {
-  const [appointments, setAppointments] = useState<ExtendedAppointment[]>([]);
+const CalendarComponent = ({
+  appointments,
+}: {
+  appointments: FullAppointment[];
+}) => {
+  const [currentAppointments, setCurrentAppointments] = useState(appointments);
   const [selectedDay, setSelectedDay] = useState<Date>(startOfToday());
-  const [currentMonth, setCurrentMonth] = useState<Date>(startOfMonth(new Date()));
-
-  useEffect(() => {
-    async function fetchAppointments() {
-      try {
-        const response = await axios.get<ExtendedAppointment[]>('/api/appointment');
-        setAppointments(response.data);
-      } catch (error) {
-        console.error(error);
-        // Handle error appropriately
-      }
-    }
-    fetchAppointments();
-  }, [currentMonth]);
+  const [currentMonth, setCurrentMonth] = useState<Date>(
+    startOfMonth(new Date())
+  );
 
   const days = eachDayOfInterval({
     start: currentMonth,
@@ -41,7 +42,7 @@ const CalendarComponent: React.FC = () => {
     setCurrentMonth(add(currentMonth, { months: 1 }));
   }
 
-  const selectedDayMeetings = appointments.filter((appointment) =>
+  const selectedDayMeetings = currentAppointments.filter((appointment) =>
     isSameDay(parseISO(appointment.date), selectedDay)
   );
 
@@ -51,7 +52,9 @@ const CalendarComponent: React.FC = () => {
         <button onClick={previousMonth} className="p-2">
           <ChevronLeft className="text-white" size={24} />
         </button>
-        <h2 className="text-xl font-semibold">{format(currentMonth, 'MMMM yyyy')}</h2>
+        <h2 className="text-xl font-semibold">
+          {format(currentMonth, "MMMM yyyy")}
+        </h2>
         <button onClick={nextMonth} className="p-2">
           <ChevronRight className="text-white" size={24} />
         </button>
@@ -63,10 +66,12 @@ const CalendarComponent: React.FC = () => {
             <button
               onClick={() => setSelectedDay(day)}
               className={`w-full rounded-full py-2 ${
-                isSameDay(day, selectedDay) ? 'bg-blue-700' : 'hover:bg-gray-600 bg-opacity-50'
-              } ${isToday(day) ? 'text-red-500' : 'text-white'}`}
+                isSameDay(day, selectedDay)
+                  ? "bg-slate-800"
+                  : "hover:bg-slate-700 bg-opacity-50"
+              } ${isToday(day) ? "text-green-600" : "text-white"}`}
             >
-              {format(day, 'd')}
+              {format(day, "d")}
             </button>
           </div>
         ))}
@@ -74,28 +79,15 @@ const CalendarComponent: React.FC = () => {
 
       <div className="mt-6">
         <h3 className="text-lg font-semibold mb-4">
-          Schedule for <time dateTime={format(selectedDay, 'yyyy-MM-dd')}>{format(selectedDay, 'MMMM dd, yyyy')}</time>
+          Schedule for{" "}
+          <time dateTime={format(selectedDay, "yyyy-MM-dd")}>
+            {format(selectedDay, "MMMM dd, yyyy")}
+          </time>
         </h3>
         <div className="space-y-4">
-          {selectedDayMeetings.length > 0 ? (
-            selectedDayMeetings.map((appointment) => (
-              <div key={appointment.id} className="flex items-center p-4 rounded-lg bg-blue-800">
-                <img
-                  src={appointment.patient.image || 'default-patient-image.jpg'}
-                  alt={`${appointment.patient.firstName} ${appointment.patient.lastName}`}
-                  className="w-10 h-10 mr-4 rounded-full"
-                />
-                <div>
-                  <p className="text-sm font-medium">{`${appointment.patient.firstName} ${appointment.patient.lastName}`}</p>
-                  <p className="text-xs">
-                    {format(parseISO(appointment.date), 'p')} - {format(add(parseISO(appointment.date), { minutes: appointment.duration }), 'p')}
-                  </p>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>No appointments for this day.</p>
-          )}
+          {currentAppointments.map((appointment) => (
+            <AppointmentCard key={appointment.id} appointment={appointment} />
+          ))}
         </div>
       </div>
     </div>

@@ -53,8 +53,11 @@ const PatientCombobox: React.FC<PatientComboboxProps> = ({
           className="w-full justify-between"
         >
           {value
-            ? `${patients.find((patient) => patient.firstName === value)?.firstName} ${
-                patients.find((patient) => patient.lastName === value)?.lastName
+            ? `${
+                patients.find((patient) => patient.id === value)
+                  ?.firstName
+              } ${
+                patients.find((patient) => patient.id === value)?.lastName
               }`
             : "Select..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

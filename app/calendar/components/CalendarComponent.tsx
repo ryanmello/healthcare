@@ -14,14 +14,18 @@ import {
   startOfMonth,
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
 import { FullAppointment } from "@/config";
 import AppointmentCard from "./AppointmentCard";
+import { Patient, User } from "@prisma/client";
 
 const CalendarComponent = ({
   appointments,
+  users,
+  patients,
 }: {
   appointments: FullAppointment[];
+  users: User[];
+  patients: Patient[];
 }) => {
   const [currentAppointments, setCurrentAppointments] = useState(appointments);
   const [selectedDay, setSelectedDay] = useState<Date>(startOfToday());
@@ -86,7 +90,13 @@ const CalendarComponent = ({
         </h3>
         <div className="space-y-4">
           {currentAppointments.map((appointment) => (
-            <AppointmentCard key={appointment.id} appointment={appointment} />
+            <AppointmentCard
+              key={appointment.id}
+              appointment={appointment}
+              patients={patients}
+              users={users}
+              setCurrentAppointments={setCurrentAppointments}
+            />
           ))}
         </div>
       </div>

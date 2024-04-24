@@ -33,6 +33,14 @@ const CalendarComponent = ({
     startOfMonth(new Date())
   );
 
+  useEffect(() => {
+    const dateString = format(selectedDay, "M/d/yyyy");
+    const filteredAppointments = appointments.filter((appointment) =>
+      appointment.date.includes(dateString)
+    );
+    setCurrentAppointments(filteredAppointments);
+  }, [selectedDay, appointments]);
+
   const days = eachDayOfInterval({
     start: currentMonth,
     end: endOfMonth(currentMonth),
@@ -51,7 +59,7 @@ const CalendarComponent = ({
   );
 
   return (
-    <div className="bg-light-blue-500 p-6 rounded-lg shadow-lg text-white">
+    <div className="p-6">
       <div className="flex items-center justify-between mb-4">
         <button onClick={previousMonth} className="p-2">
           <ChevronLeft className="text-white" size={24} />
@@ -80,7 +88,6 @@ const CalendarComponent = ({
           </div>
         ))}
       </div>
-
       <div className="mt-6">
         <h3 className="text-lg font-semibold mb-4">
           Schedule for{" "}

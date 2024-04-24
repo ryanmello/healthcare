@@ -5,6 +5,7 @@ import {
   HomeIcon,
   LayoutDashboard,
   ContactIcon,
+  CalendarCheck,
 } from "lucide-react";
 
 export const NAV_LINKS = [
@@ -22,6 +23,11 @@ export const NAV_LINKS = [
     label: "Patients",
     href: "/patients",
     icon: CircleUserRound,
+  },
+  {
+    label: "Appointments",
+    href: "/appointments",
+    icon: CalendarCheck,
   },
   {
     label: "Calendar",

@@ -10,6 +10,9 @@ export const getAppointments = async () => {
         patient: true,
         user: true,
       },
+      orderBy: {
+        date: "asc",
+      },
     });
     return appointments;
   } catch (error) {

@@ -67,6 +67,7 @@ const EditAppointmentForm = ({
       unformattedDate: new Date(currentAppointment.date),
       userId: currentAppointment.userId,
       description: currentAppointment.description,
+      unformattedDuration: currentAppointment.duration.toString(),
     },
   });
 

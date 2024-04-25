@@ -98,17 +98,23 @@ const CalendarComponent = ({
             {format(selectedDay, "MMMM dd, yyyy")}
           </time>
         </h3>
-        <div className="space-y-4">
-          {currentAppointments.map((appointment) => (
-            <AppointmentCard
-              key={appointment.id}
-              appointment={appointment}
-              patients={patients}
-              users={users}
-              setCurrentAppointments={setCurrentAppointments}
-            />
-          ))}
-        </div>
+        {currentAppointments.length > 0 ? (
+          <div className="space-y-4">
+            {currentAppointments.map((appointment) => (
+              <AppointmentCard
+                key={appointment.id}
+                appointment={appointment}
+                patients={patients}
+                users={users}
+                setCurrentAppointments={setCurrentAppointments}
+              />
+            ))}
+          </div>
+        ) : (
+          <div>
+            <p>There are no appointments scheduled for this date.</p>
+          </div>
+        )}
       </div>
     </div>
   );

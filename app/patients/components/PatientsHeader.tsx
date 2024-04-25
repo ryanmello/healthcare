@@ -51,8 +51,8 @@ const PatientsHeader = () => {
     }
   };
   return (
-    <div className="flex items-center justify-between my-6">
-      <h1 className="font-semibold text-lg">Patients Table</h1>
+    <div className="flex items-center justify-between my-4">
+      <h1 className="font-semibold text-lg">Patients</h1>
       <Dialog>
         <DialogTrigger>
           <div className="bg-white text-black px-4 py-2 rounded-md flex items-center space-x-2">

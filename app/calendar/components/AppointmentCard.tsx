@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { Patient, User } from "@prisma/client";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import EditAppointmentForm from "@/app/dashboard/components/EditAppointmentForm";
+import EditAppointmentForm from "@/app/appointments/components/EditAppointmentForm";
 
 interface AppointmentCardProps {
   appointment: FullAppointment;

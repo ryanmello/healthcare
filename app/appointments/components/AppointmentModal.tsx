@@ -110,7 +110,8 @@ const AppointmentModal = ({
   return (
     <Dialog>
       <DialogTrigger>
-        <Button size="sm">
+        <Button>
+          <p className="font-semibold pr-1">Create appointment</p>
           <PlusIcon size={16} />
         </Button>
       </DialogTrigger>

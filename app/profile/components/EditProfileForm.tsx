@@ -28,8 +28,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { UploadButton } from "@/lib/uploadthing";
+import Image from 'next/image'
+import { UploadDropzone } from "@/lib/uploadthing";
 
 interface EditProfileFormProps {
   user: User;
@@ -42,6 +45,7 @@ const formSchema = z.object({
   email: z.string().min(1, "Email is required"),
   phone: z.string().min(1, "Phone number is required"),
   role: z.string().min(1, "Role is required"),
+  image: z.string().min(1, "Profile image is required"),
 });
 
 const roles = [
@@ -55,6 +59,8 @@ const roles = [
 type FormValues = z.infer<typeof formSchema>;
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
+  const [image, setImage] = useState<string>('');
+  const [imageDelete, setImageIsDeleting] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -65,8 +71,25 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
       email: user.email,
       phone: user.phone ?? "",
       role: user.role,
+      image: user.image ?? "",
     },
   });
+
+  const handleImageDelete = (image: string) => {
+      setImageIsDeleting(true);
+      const imageKey = image.substring(image.lastIndexOf("/") + 1);
+      
+      axios.post("/api/uploadthing/delete", {imageKey}).then((res) => {
+        if(res.data.success) {
+          setImage("");
+          toast.success("Profile image deleted");
+        }
+      }).catch(() => {
+        toast.error("Something went wrong");
+      }).finally(() => {
+        setImageIsDeleting(false);
+      })
+  }
 
   const onSubmit = async (values: FormValues) => {
     try {
@@ -91,7 +114,46 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">    
+      <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Profile Image</FormLabel>
+              <FormControl>
+                {image ? <>
+                  <div className="relative max-w-[200px] min-w-[200px] max-h-[200px] min-h-[200px] mt-4">    
+                    <Image fill src={image} alt="Profile Image" className="object-cover w-full h-full" />
+                    <Button onClick = {() => handleImageDelete(image)} type='button' size='icon' variant='ghost' className='absolute right-[0px] top-0'>
+                      {imageDelete ? <Loader2/> : <XCircle className="h-12 w-12"/>}
+                    </Button>
+                  </div>
+                </> : <>
+                  <div className="flex flex-col items-center max-w[400px] p-12 border-2 border-dashed border-primary/50 rounded mt-4">
+                    <UploadDropzone
+                      endpoint="profileImage"
+                      onClientUploadComplete={(res) => {
+                        console.log("Files: ", res);
+                        const imageUrl = res[0].url;
+                        setImage(imageUrl);
+                        toast.success("Profile image uploaded successfully");
+
+                      }}
+                      onUploadError={(error: Error) => {
+                        // Do something with the error.
+                        alert(`ERROR! ${error.message}`);
+                      }}
+                    />
+                  </div>
+                </>}
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+
+
         <FormField
           control={form.control}
           name="id"

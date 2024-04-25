@@ -57,17 +57,19 @@ const SidebarBody = ({ user }: { user: User | null }) => {
           {expanded ? <ChevronFirst /> : <ChevronLast />}
         </button>
       </div>
-      <ul className={cn("flex-1 px-3 mt-2", !expanded && "px-5")}>
-        {NAV_LINKS.map((link, index) => (
-          <SidebarItem
-            key={index}
-            icon={link.icon}
-            text={link.label}
-            route={link.href}
-            expanded={expanded}
-          />
-        ))}
-      </ul>
+      <div className="flex-grow overflow-y-auto">
+        <ul className={cn("px-3 mt-2", !expanded && "px-5")}>
+          {NAV_LINKS.map((link, index) => (
+            <SidebarItem
+              key={index}
+              icon={link.icon}
+              text={link.label}
+              route={link.href}
+              expanded={expanded}
+            />
+          ))}
+        </ul>
+      </div>
       <div className="flex justify-between items-center border-t border-slate-700 p-4">
         <div className={cn("flex items-center", !expanded && "px-3")}>
           <UserButton />

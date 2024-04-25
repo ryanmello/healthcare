@@ -34,9 +34,13 @@ const CalendarComponent = ({
 
   useEffect(() => {
     const dateString = format(selectedDay, "M/d/yyyy");
-    const filteredAppointments = appointments.filter((appointment) =>
-      appointment.date.includes(dateString)
-    );
+    const filteredAppointments = appointments
+      .filter((appointment) => appointment.date.includes(dateString))
+      .sort((a, b) => {
+        const dateA = new Date(a.date).getTime();
+        const dateB = new Date(b.date).getTime();
+        return dateA - dateB;
+      });
     setCurrentAppointments(filteredAppointments);
   }, [selectedDay, appointments]);
 

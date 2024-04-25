@@ -14,17 +14,12 @@ import {
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FullAppointment } from "@/config";
-import AppointmentCard from "./AppointmentCard";
-import { Patient, User } from "@prisma/client";
+import AppointmentCard from "@/app/appointments/components/AppointmentCard";
 
 const CalendarComponent = ({
   appointments,
-  users,
-  patients,
 }: {
   appointments: FullAppointment[];
-  users: User[];
-  patients: Patient[];
 }) => {
   const [currentAppointments, setCurrentAppointments] = useState(appointments);
   const [selectedDay, setSelectedDay] = useState<Date>(startOfToday());
@@ -75,21 +70,25 @@ const CalendarComponent = ({
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-4 mb-6">
-        {days.map((day, index) => (
-          <div key={index} className="py-2 px-1 text-center">
-            <button
-              onClick={() => setSelectedDay(day)}
-              className={`w-full rounded-full py-2 ${
-                isSameDay(day, selectedDay)
-                  ? "bg-slate-800"
-                  : "hover:bg-slate-700 bg-opacity-50"
-              } ${isToday(day) ? "text-green-600" : "text-white"}`}
-            >
-              {format(day, "d")}
-            </button>
+      <div className="flex flex-col items-center justify-center">
+        <div className="w-full lg:w-2/3">
+          <div className="grid grid-cols-7 gap-4 mb-6">
+            {days.map((day, index) => (
+              <div key={index} className="py-2 px-1 text-center">
+                <button
+                  onClick={() => setSelectedDay(day)}
+                  className={`w-full rounded-full py-2 ${
+                    isSameDay(day, selectedDay)
+                      ? "bg-slate-800"
+                      : "hover:bg-slate-700 bg-opacity-50"
+                  } ${isToday(day) ? "text-green-600" : "text-white"}`}
+                >
+                  {format(day, "d")}
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
       <div className="mt-6">
         <h3 className="text-lg font-semibold mb-4">
@@ -104,8 +103,6 @@ const CalendarComponent = ({
               <AppointmentCard
                 key={appointment.id}
                 appointment={appointment}
-                patients={patients}
-                users={users}
                 setCurrentAppointments={setCurrentAppointments}
               />
             ))}

@@ -13,7 +13,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import PatientCombobox from "./PatientCombobox";
+import PatientCombobox from "../../components/PatientCombobox";
 import { Patient, User } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
@@ -253,9 +253,7 @@ const EditAppointmentForm = ({
             </FormItem>
           )}
         />
-        <DialogTrigger>
-          <Button type="submit">Submit</Button>
-        </DialogTrigger>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );

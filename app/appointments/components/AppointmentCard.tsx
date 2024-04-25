@@ -7,26 +7,22 @@ import axios from "axios";
 import { Check, Pencil, PersonStandingIcon, Trash } from "lucide-react";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Patient, User } from "@prisma/client";
-import EditAppointmentForm from "./EditAppointmentForm";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface AppointmentCardProps {
   appointment: FullAppointment;
-  patients: Patient[];
-  users: User[];
   setCurrentAppointments: Dispatch<SetStateAction<FullAppointment[]>>;
 }
 
 const AppointmentCard: React.FC<AppointmentCardProps> = ({
   appointment,
-  patients,
-  users,
   setCurrentAppointments,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentAppointment, setCurrentAppointment] = useState(appointment);
+  const router = useRouter();
 
   useEffect(() => {
     setIsLoading(true);
@@ -107,25 +103,14 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
       </p>
       <Separator className="my-2" />
 
-      <Dialog>
-        <DialogTrigger>
-          <Button
-            variant="ghost"
-            className="space-x-2 border-[1px] border-slate-700 rounded-md mr-2"
-          >
-            <p className="font-semibold">Edit</p>
-            <Pencil size={14} />
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <EditAppointmentForm
-            patients={patients}
-            users={users}
-            currentAppointment={currentAppointment}
-            setCurrentAppointment={setCurrentAppointment}
-          />
-        </DialogContent>
-      </Dialog>
+      <Button
+        variant="ghost"
+        className="space-x-2 border-[1px] border-slate-700 rounded-md mr-2"
+        onClick={() => router.push(`/appointments/${appointment.id}`)}
+      >
+        <p className="font-semibold">Edit</p>
+        <Pencil size={14} />
+      </Button>
       <Dialog>
         <DialogTrigger>
           <Button

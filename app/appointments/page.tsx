@@ -6,15 +6,11 @@ import AppointmentsTab from "./components/AppointmentsTab";
 
 const Appointments = async () => {
   const appointments = await getAppointments();
-  const patients = await getPatients();
-  const users = await getUsers();
 
   return (
     <MaxWidthWrapper className="flex flex-col md:flex-row">
       <AppointmentsTab
         appointments={appointments}
-        patients={patients}
-        users={users}
       />
     </MaxWidthWrapper>
   );

@@ -14,11 +14,6 @@ export const NAV_LINKS = [
     icon: HomeIcon,
   },
   {
-    label: "Dashboard",
-    href: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
     label: "Patients",
     href: "/patients",
     icon: CircleUserRound,
@@ -39,10 +34,6 @@ export const MOBILE_NAV_LINKS = [
   {
     label: "HOME",
     href: "/",
-  },
-  {
-    label: "DASHBOARD",
-    href: "/dashboard",
   },
   {
     label: "PATIENTS",

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import EditPatient from "./EditPatient";
 import DeletePatient from "./DeletePatient";
+import AddPatientNote from "./AddPatientNote";
 
 export const columns: ColumnDef<Patient>[] = [
   {
@@ -47,6 +48,7 @@ export const columns: ColumnDef<Patient>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <AddPatientNote patientId={patient.id} />
             <EditPatient patient={patient} />
             <DeletePatient patient={patient} />
           </DropdownMenuContent>

@@ -9,7 +9,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FullAppointment } from "@/config";
-import EditAppointment from "./EditAppointment";
+import Link from "next/link";
+import DeleteAppointmentModal from "./DeleteAppointmentModal";
 
 export const columns: ColumnDef<FullAppointment>[] = [
   {
@@ -17,12 +18,20 @@ export const columns: ColumnDef<FullAppointment>[] = [
     header: "Date",
   },
   {
-    accessorKey: "user.firstName",
+    accessorKey: "user.lastName",
     header: "Assigned To",
   },
   {
     accessorKey: "patient.firstName",
-    header: "Patient",
+    header: "P-FName",
+  },
+  {
+    accessorKey: "patient.lastName",
+    header: "P-LName",
+  },
+  {
+    accessorKey: "patient.email",
+    header: "P-Email",
   },
   {
     id: "actions",
@@ -38,7 +47,13 @@ export const columns: ColumnDef<FullAppointment>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <EditAppointment appointment={appointment} />
+            <Link
+              href={`/appointments/${appointment.id}`}
+              className="text-sm px-2"
+            >
+              Edit Appointment
+            </Link>
+            <DeleteAppointmentModal appointment={appointment} />
           </DropdownMenuContent>
         </DropdownMenu>
       );

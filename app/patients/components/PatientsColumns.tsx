@@ -1,6 +1,5 @@
 "use client";
 
-import { Patient } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,8 +11,10 @@ import {
 import EditPatient from "./EditPatient";
 import DeletePatient from "./DeletePatient";
 import AddPatientNote from "./AddPatientNote";
+import ViewPatientNotes from "./ViewPatientNotes";
+import { FullPatient } from "@/config";
 
-export const columns: ColumnDef<Patient>[] = [
+export const columns: ColumnDef<FullPatient>[] = [
   {
     accessorKey: "firstName",
     header: "First Name",
@@ -49,6 +50,7 @@ export const columns: ColumnDef<Patient>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <AddPatientNote patientId={patient.id} />
+            <ViewPatientNotes patient={patient} />
             <EditPatient patient={patient} />
             <DeletePatient patient={patient} />
           </DropdownMenuContent>

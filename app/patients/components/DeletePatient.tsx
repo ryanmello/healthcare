@@ -15,36 +15,33 @@ const DeletePatient = ({ patient }: { patient: Patient }) => {
     }
   };
   return (
-    <div>
-      <Dialog>
+    <Dialog>
+      <DialogTrigger>
+        <div className="w-28 flex items-center p-2 cursor-pointer">
+          <p className="text-sm">Delete Patient</p>
+        </div>
+      </DialogTrigger>
+      <DialogContent>
+        <p className="font-semibold text-lg">Are you sure?</p>
+        <p className="text-sm font-light">
+          This will also delete the entire appointment history of this patient.
+        </p>
+        <p className="text-sm font-light">This cannot be undone.</p>
+        <p>Patient Information:</p>
+        <p className="text-sm font-light">
+          {patient.firstName} {patient.lastName} - {patient.dob}
+        </p>
         <DialogTrigger>
-          <div className="w-28 flex items-center p-2 cursor-pointer">
-            <p className="text-sm">Delete Patient</p>
-          </div>
+          <Button
+            variant="destructive"
+            onClick={handleDelete}
+            className="flex ml-auto"
+          >
+            Delete
+          </Button>
         </DialogTrigger>
-        <DialogContent>
-          <p className="font-semibold text-lg">Are you sure?</p>
-          <p className="text-sm font-light">
-            This will also delete the entire appointment history of this
-            patient.
-          </p>
-          <p className="text-sm font-light">This cannot be undone.</p>
-          <p>Patient Information:</p>
-          <p className="text-sm font-light">
-            {patient.firstName} {patient.lastName} - {patient.dob}
-          </p>
-          <DialogTrigger>
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
-              className="flex ml-auto"
-            >
-              Delete
-            </Button>
-          </DialogTrigger>
-        </DialogContent>
-      </Dialog>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

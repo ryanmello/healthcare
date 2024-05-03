@@ -1,4 +1,4 @@
-import { Note, Patient, User } from "@prisma/client";
+import { Appointment, Note, Patient, User } from "@prisma/client";
 import {
   Calendar,
   CircleUserRound,
@@ -69,4 +69,17 @@ export type FullPatient = {
   createdAt: Date;
   updatedAt: Date;
   notes: Note[];
+};
+
+export type FullNote = {
+  id: string;
+  text: string;
+  patientId: string | null;
+  // patient: Patient;
+  appointmentId: string | null;
+  // appointment: Appointment;
+  userId: string;
+  user: User;
+  createdAt: Date;
+  updatedAt: Date;
 };

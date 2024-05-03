@@ -1,5 +1,14 @@
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { FullPatient } from "@/config";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { FullNote, FullPatient } from "@/config";
+import { format } from "date-fns";
+import NoteCard from "./NoteCard";
 
 const ViewPatientNotes = ({ patient }: { patient: FullPatient }) => {
   return (
@@ -11,9 +20,17 @@ const ViewPatientNotes = ({ patient }: { patient: FullPatient }) => {
           </div>
         </DialogTrigger>
         <DialogContent>
-          {patient.notes.map((note) => (
-            <p key={note.id}>{note.id}</p>
-          ))}
+          <DialogHeader>
+            <DialogTitle>
+              {patient.firstName} {patient.lastName} Notes
+            </DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="pr-4 max-h-[700px]">
+            {patient.notes.map((note) => (
+              // @ts-ignore
+              <NoteCard key={note.id} note={note} />
+            ))}
+          </ScrollArea>
         </DialogContent>
       </Dialog>
     </div>

@@ -4,7 +4,15 @@ export const getPatients = async () => {
   try {
     const patients = await db.patient.findMany({
       include: {
-        notes: true,
+        notes: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          include: {
+            // @ts-ignore
+            user: true,
+          }
+        },
       },
     });
     return patients;

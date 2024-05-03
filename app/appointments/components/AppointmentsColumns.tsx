@@ -14,22 +14,27 @@ import DeleteAppointmentModal from "./DeleteAppointmentModal";
 
 export const columns: ColumnDef<FullAppointment>[] = [
   {
+    id: "date",
     accessorKey: "date",
     header: "Date",
   },
   {
+    id: "userLastName",
     accessorKey: "user.lastName",
     header: "Assigned To",
   },
   {
+    id: "patientFirstName",
     accessorKey: "patient.firstName",
     header: "P-FName",
   },
   {
+    id: "patientLastName",
     accessorKey: "patient.lastName",
     header: "P-LName",
   },
   {
+    id: "patientEmail",
     accessorKey: "patient.email",
     header: "P-Email",
   },

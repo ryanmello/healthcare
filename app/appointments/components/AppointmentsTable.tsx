@@ -54,10 +54,10 @@ export function AppointmentsTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4 space-x-2">
         <Input
-          placeholder="Filter dates..."
-          value={(table.getColumn("date")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter patient emails..."
+          value={(table.getColumn("patientEmail")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("date")?.setFilterValue(event.target.value)
+            table.getColumn("patientEmail")?.setFilterValue(event.target.value)
           }
           className="w-[200px]"
         />

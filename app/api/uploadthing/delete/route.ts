@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   const { imageKey } = await req.json();
   try {
-    const res = utapi.deleteFiles(imageKey);
+    const res = await utapi.deleteFiles(imageKey);
     return NextResponse.json(res);
   } catch (error) {
     console.log("error at uploadthing/delete", error);

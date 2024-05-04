@@ -25,7 +25,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [currentAppointment, setCurrentAppointment] = useState(appointment);
   const [noteText, setNoteText] = useState("");
-  const [notes, setNotes] = useState(appointment.note || []);
+  const [notes, setNotes] = useState(appointment.notes || []);
   const router = useRouter();
 
   useEffect(() => {

@@ -32,7 +32,7 @@ const ViewAppointmentNotes = ({
           </DialogHeader>
           <ScrollArea className="pr-4 max-h-[700px]">
             <h3>Notes:</h3>
-            {appointment.note.map((note) => (
+            {appointment.notes.map((note) => (
               //@ts-ignore
               <AppointmentNoteCard key={note.id} note={note} />
             ))}

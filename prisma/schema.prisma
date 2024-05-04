@@ -53,7 +53,7 @@ model Appointment {
   archived    Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  note        Note[]
+  notes       Note[]
 }
 
 model Note {

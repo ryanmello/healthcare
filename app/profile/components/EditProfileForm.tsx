@@ -30,12 +30,15 @@ import {
 } from "@/components/ui/popover";
 import { Check, ChevronsUpDown, Loader2, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { UploadButton } from "@/lib/uploadthing";
 import Image from 'next/image'
 import { UploadDropzone } from "@/lib/uploadthing";
 
 interface EditProfileFormProps {
   user: User;
+}
+
+interface UploadFile {
+  url: string;
 }
 
 const formSchema = z.object({
@@ -59,7 +62,7 @@ const roles = [
 type FormValues = z.infer<typeof formSchema>;
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
-  const [image, setImage] = useState<string>('');
+  const [currentImage, setImage] = useState(user.image);
   const [imageDelete, setImageIsDeleting] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const form = useForm<FormValues>({
@@ -75,6 +78,23 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
     },
   });
 
+  const handleProfileImageUpload = (res: UploadFile[] | undefined) => {
+    if(res !== undefined){
+      axios
+      .post("/api/user/update", { image: res[0].url }) // Main culprit of problems
+      .then(() => {
+        toast.success("Profile image updated!");
+        setImage(res[0].url);
+      })
+      .catch(() => toast.error("Error updating profile image."))
+      .finally(() => {
+        setImageIsDeleting(false);
+      });
+    } else {
+      toast.error("Error updating profile image.");
+    }
+  }
+  
   const handleImageDelete = (image: string) => {
       setImageIsDeleting(true);
       const imageKey = image.substring(image.lastIndexOf("/") + 1);
@@ -96,6 +116,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
       await axios.post("/api/user/update", {
         userId: user.id,
         ...values,
+        image: currentImage,
       });
       toast.success("User name updated successfully");
     } catch (error) {
@@ -122,10 +143,10 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
             <FormItem>
               <FormLabel>Profile Image</FormLabel>
               <FormControl>
-                {image ? <>
+                {currentImage ? <>
                   <div className="relative max-w-[200px] min-w-[200px] max-h-[200px] min-h-[200px] mt-4">    
-                    <Image fill src={image} alt="Profile Image" className="object-cover w-full h-full" />
-                    <Button onClick = {() => handleImageDelete(image)} type='button' size='icon' variant='ghost' className='absolute right-[0px] top-0'>
+                    <Image fill src={currentImage} alt="Profile Image" className="object-cover w-full h-full" />
+                    <Button onClick = {() => handleImageDelete(currentImage)} type='button' size='icon' variant='ghost' className='absolute right-[0px] top-0'>
                       {imageDelete ? <Loader2/> : <XCircle className="h-12 w-12"/>}
                     </Button>
                   </div>
@@ -137,6 +158,8 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
                         console.log("Files: ", res);
                         const imageUrl = res[0].url;
                         setImage(imageUrl);
+                        //handleProfileImageUpload(res);
+                        
                         toast.success("Profile image uploaded successfully");
 
                       }}

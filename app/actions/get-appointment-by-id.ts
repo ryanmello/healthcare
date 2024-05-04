@@ -9,6 +9,7 @@ export const getAppointmentById = async (appointmentId: string) => {
       include: {
         patient: true,
         user: true,
+        note: true,
       },
     });
     return appointment;

@@ -11,6 +11,9 @@ import {
 import { FullAppointment } from "@/config";
 import Link from "next/link";
 import DeleteAppointmentModal from "./DeleteAppointmentModal";
+import AddAppointmentNote from "./AddAppointmentNote";
+import ViewAppointmentNotes from "./ViewAppointmentNotes";
+// import EditAppointment from "./EditAppointment";
 
 export const columns: ColumnDef<FullAppointment>[] = [
   {
@@ -51,11 +54,12 @@ export const columns: ColumnDef<FullAppointment>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="flex flex-col">
+            <AddAppointmentNote appointmentId={appointment.id} />
+            <ViewAppointmentNotes appointment={appointment} />
             <Link
               href={`/appointments/${appointment.id}`}
-              className="text-sm px-2"
-            >
+              className="text-sm px-2">
               Edit Appointment
             </Link>
             <DeleteAppointmentModal appointment={appointment} />

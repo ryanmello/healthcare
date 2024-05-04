@@ -2,14 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { FullAppointment } from "@/config";
 import axios from "axios";
-import { Check, Pencil, PersonStandingIcon, Trash } from "lucide-react";
+import { Check, Pencil, PersonStandingIcon, PlusIcon, Trash, EyeIcon } from "lucide-react";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
+import AppointmentNoteCard from "./AppointmentNoteCard";
 
 interface AppointmentCardProps {
   appointment: FullAppointment;
@@ -22,6 +24,8 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentAppointment, setCurrentAppointment] = useState(appointment);
+  const [noteText, setNoteText] = useState("");
+  const [notes, setNotes] = useState(appointment.note || []);
   const router = useRouter();
 
   useEffect(() => {
@@ -58,16 +62,34 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
     }
   };
 
+  const handleAddNote = async (event: { preventDefault: () => void; }) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('/api/note/create', {
+        appointmentId: appointment.id,
+        text: noteText
+      });
+      setNotes([...notes, response.data]);
+      setNoteText("");
+      toast.success('Note added successfully!');
+    } catch (error) {
+      toast.error('Failed to add note.');
+    }
+  };
+
+  const handleViewNotes = async () => {
+    try {
+      const response = await axios.get(`/api/note?appointmentId=${appointment.id}`);
+      setNotes(response.data);
+    } catch (error) {
+      toast.error('Failed to load notes.');
+    }
+  };
+
   let startDate = new Date(appointment.date);
   let endDate = new Date(startDate.getTime() + appointment.duration * 60000);
-  let startTime = startDate.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  let endTime = endDate.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  let startTime = startDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  let endTime = endDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
   let formattedAppointmentTime = `${startTime} - ${endTime}`;
   let formattedDate = startDate.toLocaleDateString("en-US", {
@@ -84,77 +106,54 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
           <p className="font-light text-slate-400">{formattedDate}</p>
         </div>
         {currentAppointment.patient.image ? (
-          <Image src={currentAppointment.patient.image} alt="Image" />
+          <Image src={currentAppointment.patient.image} alt="Patient Image" />
         ) : (
           <PersonStandingIcon />
         )}
       </div>
       <Separator className="my-2" />
       <p className="font-semibold">
-        {currentAppointment.patient.firstName}{" "}
-        {currentAppointment.patient.lastName}
+        {currentAppointment.patient.firstName} {currentAppointment.patient.lastName}
       </p>
       <p className="font-light text-slate-400">
         {currentAppointment.user.firstName} {currentAppointment.user.lastName}
       </p>
-      <Separator className="my-2" />
       <p className="font-light text-slate-400">
         {currentAppointment.description}
       </p>
       <Separator className="my-2" />
-
-      <Button
-        variant="ghost"
-        className="space-x-2 border-[1px] border-slate-700 rounded-md mr-2"
-        onClick={() => router.push(`/appointments/${appointment.id}`)}
-      >
-        <p className="font-semibold">Edit</p>
-        <Pencil size={14} />
-      </Button>
-      <Dialog>
-        <DialogTrigger>
-          <Button
-            variant="ghost"
-            className="space-x-2 border-[1px] border-slate-700 rounded-md mr-2"
-          >
-            <p className="font-semibold">Delete</p>
-            <Trash size={14} />
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <p>Are you sure?</p>
-          <DialogTrigger className="w-full flex">
-            <Button
-              variant="destructive"
-              className="w-1/3 ml-auto"
-              onClick={handleDelete}
-            >
-              Delete
+      <div className="space-x-2">
+        <Button
+          variant="ghost"
+          className="border-[1px] border-slate-700 rounded-md"
+          onClick={() => router.push(`/appointments/${appointment.id}`)}
+        >
+          <Pencil size={14} /> <span>Edit</span>
+        </Button>
+        <Button
+          variant="ghost"
+          className="border-[1px] border-slate-700 rounded-md"
+          onClick={() => {
+            setNoteText('');
+            handleViewNotes();
+          }}
+        >
+          <EyeIcon size={14} /> <span>View Notes</span>
+        </Button>
+        <Dialog>
+          <DialogTrigger>
+            <Button variant="ghost" className="border-[1px] border-slate-700 rounded-md">
+              <PlusIcon size={14} /> <span>Add Note</span>
             </Button>
           </DialogTrigger>
-        </DialogContent>
-      </Dialog>
-      <Dialog>
-        <DialogTrigger>
-          <Button
-            variant="ghost"
-            className="space-x-2 border-[1px] border-slate-700 rounded-md"
-          >
-            <p className="font-semibold">Complete</p>
-            <Check size={14} />
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <p className="w-2/3">
-            Are you sure you want to mark this appointment as completed?
-          </p>
-          <DialogTrigger className="w-full flex">
-            <Button className="w-1/3 ml-auto" onClick={handleComplete}>
-              Confirm
-            </Button>
-          </DialogTrigger>
-        </DialogContent>
-      </Dialog>
+          <DialogContent>
+            <form onSubmit={handleAddNote}>
+              <Input value={noteText} onChange={(e) => setNoteText(e.target.value)} placeholder="Type your note here..." />
+              <Button type="submit">Submit</Button>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 };

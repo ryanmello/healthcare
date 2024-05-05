@@ -14,7 +14,7 @@ import {
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FullAppointment } from "@/config";
-import AppointmentCard from "@/app/appointments/components/AppointmentCard";
+import AppointmentCard from "@/components/AppointmentCard";
 
 const CalendarComponent = ({
   appointments,
@@ -26,6 +26,7 @@ const CalendarComponent = ({
   const [currentMonth, setCurrentMonth] = useState<Date>(
     startOfMonth(new Date())
   );
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     const dateString = format(selectedDay, "M/d/yyyy");
@@ -52,9 +53,13 @@ const CalendarComponent = ({
     setCurrentMonth(add(currentMonth, { months: 1 }));
   }
 
-  const selectedDayMeetings = currentAppointments.filter((appointment) =>
-    isSameDay(parseISO(appointment.date), selectedDay)
-  );
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="p-6">

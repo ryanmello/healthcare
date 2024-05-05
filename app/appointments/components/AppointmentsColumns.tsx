@@ -13,7 +13,6 @@ import Link from "next/link";
 import DeleteAppointmentModal from "./DeleteAppointmentModal";
 import AddAppointmentNote from "./AddAppointmentNote";
 import ViewAppointmentNotes from "./ViewAppointmentNotes";
-// import EditAppointment from "./EditAppointment";
 
 export const columns: ColumnDef<FullAppointment>[] = [
   {
@@ -59,7 +58,7 @@ export const columns: ColumnDef<FullAppointment>[] = [
             <ViewAppointmentNotes appointment={appointment} />
             <Link
               href={`/appointments/${appointment.id}`}
-              className="text-sm px-2">
+              className="text-sm px-2 my-2">
               Edit Appointment
             </Link>
             <DeleteAppointmentModal appointment={appointment} />

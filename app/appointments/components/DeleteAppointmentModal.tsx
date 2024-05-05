@@ -24,8 +24,8 @@ const DeleteAppointmentModal = ({
     <div>
       <Dialog>
         <DialogTrigger>
-          <div className="w-28 flex items-center p-2 cursor-pointer">
-            <p className="text-sm">Delete Patient</p>
+          <div className="w-40 flex items-center p-2 cursor-pointer">
+            <p className="text-sm">Delete Appointment</p>
           </div>
         </DialogTrigger>
         <DialogContent>

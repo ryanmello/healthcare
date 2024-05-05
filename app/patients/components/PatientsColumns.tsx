@@ -10,9 +10,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import EditPatient from "./EditPatient";
 import DeletePatient from "./DeletePatient";
-import AddPatientNote from "./AddPatientNote";
 import ViewPatientNotes from "./ViewPatientNotes";
 import { FullPatient } from "@/config";
+import AddNoteDialog from "@/components/AddNoteDialog";
 
 export const columns: ColumnDef<FullPatient>[] = [
   {
@@ -49,7 +49,7 @@ export const columns: ColumnDef<FullPatient>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <AddPatientNote patientId={patient.id} />
+            <AddNoteDialog patientId={patient.id} isTable={true} />
             <ViewPatientNotes patient={patient} />
             <EditPatient patient={patient} />
             <DeletePatient patient={patient} />

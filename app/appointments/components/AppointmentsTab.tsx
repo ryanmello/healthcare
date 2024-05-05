@@ -2,13 +2,13 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import { FullAppointment } from "@/config";
-import AppointmentCard from "./AppointmentCard";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { PlusIcon } from "lucide-react";
 import { columns } from "./AppointmentsColumns";
 import { AppointmentsTable } from "./AppointmentsTable";
+import AppointmentCard from "@/components/AppointmentCard";
 
 interface AppointmentsTabProps {
   appointments: FullAppointment[];
@@ -18,6 +18,7 @@ const AppointmentsTab: React.FC<AppointmentsTabProps> = ({ appointments }) => {
   const [currentAppointments, setCurrentAppointments] = useState<
     FullAppointment[]
   >([]);
+
   const router = useRouter();
 
   useEffect(() => {

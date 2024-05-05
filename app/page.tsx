@@ -1,7 +1,34 @@
-export default function Home() {
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { getAppointments } from "./actions/get-appointments";
+import { FullAppointment } from "@/config";
+import { isToday } from "date-fns";
+import AppointmentCard from "@/components/AppointmentCard";
+
+export default async function Home() {
+  const appointments = (await getAppointments()) as FullAppointment[];
+
+  const todayAppointments = appointments.filter((appointment) => {
+    const appointmentDate = new Date(appointment.date);
+    return isToday(appointmentDate);
+  });
+
   return (
-    <div>
-      Home
-    </div>
+    <MaxWidthWrapper>
+      <h2 className="text-2xl font-semibold my-4">Welcome back!</h2>
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="w-full md:w-1/2">
+          <h3 className="my-4 font-medium">Upcoming Appointments</h3>
+          {todayAppointments.map((app) => (
+            <AppointmentCard key={app.id} appointment={app} />
+          ))}
+        </div>
+        <div className="w-full md:w-1/2">
+          <h3 className="my-4 font-medium">Upcoming Appointments</h3>
+          {todayAppointments.map((app) => (
+            <AppointmentCard key={app.id} appointment={app} />
+          ))}
+        </div>
+      </div>
+    </MaxWidthWrapper>
   );
 }

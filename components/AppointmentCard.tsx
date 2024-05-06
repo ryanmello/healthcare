@@ -119,7 +119,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
       </p>
       <p className="font-light text-slate-400">{appointment.description}</p>
       <Separator className="my-2" />
-      <div className="space-x-2">
+      <div className="flex flex-wrap gap-2">
         <Button
           variant="ghost"
           className="border-[1px] border-slate-700 rounded-md space-x-2"

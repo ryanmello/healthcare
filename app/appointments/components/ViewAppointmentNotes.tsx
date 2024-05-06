@@ -1,3 +1,4 @@
+import NoteCard from "@/app/patients/components/NoteCard";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FullAppointment } from "@/config";
-import AppointmentNoteCard from "./AppointmentNoteCard";
 import { format } from "date-fns";
 
 const ViewAppointmentNotes = ({
@@ -34,7 +34,7 @@ const ViewAppointmentNotes = ({
             <h3>Notes:</h3>
             {appointment.notes.map((note) => (
               //@ts-ignore
-              <AppointmentNoteCard key={note.id} note={note} />
+              <NoteCard key={note.id} note={note} />
             ))}
           </ScrollArea>
         </DialogContent>

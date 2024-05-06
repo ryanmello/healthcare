@@ -187,7 +187,7 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
               <DialogTitle>Appointment Notes</DialogTitle>
             </DialogHeader>
             <ScrollArea className="pr-4 max-h-[700px]">
-              {appointment.note.map((note) => (
+              {appointment.notes.map((note) => (
                 // @ts-ignore
                 <NoteCard key={note.id} note={note} />
               ))}

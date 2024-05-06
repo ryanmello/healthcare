@@ -9,12 +9,11 @@ export const getAppointments = async () => {
       include: {
         patient: true,
         user: true,
-        note: {
+        notes: {
           orderBy: {
             createdAt: "desc",
           },
           include: {
-            // @ts-ignore
             user: true,
           },
         },

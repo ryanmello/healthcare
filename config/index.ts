@@ -54,7 +54,7 @@ export type FullAppointment = {
   userId: string;
   patient: Patient;
   patientId: string;
-  note: Note[];
+  notes: Note[];
 };
 
 export type FullPatient = {

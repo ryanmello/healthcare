@@ -4,17 +4,17 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { patientId } = data;
+    const { id } = data;
 
     await db.appointment.deleteMany({
       where: {
-        patientId: patientId,
+        patientId: id,
       },
     });
 
     const patient = await db.patient.delete({
       where: {
-        id: patientId,
+        id: id,
       },
     });
 

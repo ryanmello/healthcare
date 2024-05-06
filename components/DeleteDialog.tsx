@@ -1,14 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Patient } from "@prisma/client";
 import axios from "axios";
+import { TrashIcon } from "lucide-react";
 import { toast } from "sonner";
 
-const DeletePatient = ({ patient }: { patient: Patient }) => {
+interface DeleteDialogProps {
+  id: string;
+  directive: string;
+  type: "text" | "icon";
+  message?: string;
+}
+
+const DeleteDialog: React.FC<DeleteDialogProps> = ({
+  id,
+  directive,
+  type,
+  message,
+}) => {
   const handleDelete = async () => {
     try {
-      await axios.post("/api/patient/delete", { patientId: patient.id });
-      toast.success("Patient Deleted");
+      await axios.post(`/api/${directive}/delete`, { id: id });
+      toast.success("Deleted successfully");
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -17,20 +29,17 @@ const DeletePatient = ({ patient }: { patient: Patient }) => {
   return (
     <Dialog>
       <DialogTrigger>
-        <div className="w-28 flex items-center p-2 cursor-pointer">
-          <p className="text-sm">Delete Patient</p>
-        </div>
+        {type == "icon" ? (
+          <TrashIcon size={16} />
+        ) : (
+          <div className="w-28 flex items-center p-2 cursor-pointer">
+            <p className="text-sm">Delete {directive}</p>
+          </div>
+        )}
       </DialogTrigger>
       <DialogContent>
         <p className="font-semibold text-lg">Are you sure?</p>
-        <p className="text-sm font-light">
-          This will also delete the entire appointment history of this patient.
-        </p>
-        <p className="text-sm font-light">This cannot be undone.</p>
-        <p>Patient Information:</p>
-        <p className="text-sm font-light">
-          {patient.firstName} {patient.lastName} - {patient.dob}
-        </p>
+        <p className="text-sm">{message}</p>
         <DialogTrigger>
           <Button
             variant="destructive"
@@ -45,4 +54,4 @@ const DeletePatient = ({ patient }: { patient: Patient }) => {
   );
 };
 
-export default DeletePatient;
+export default DeleteDialog;

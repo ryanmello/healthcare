@@ -9,10 +9,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import EditPatient from "./EditPatient";
-import DeletePatient from "./DeletePatient";
 import ViewPatientNotes from "./ViewPatientNotes";
 import { FullPatient } from "@/config";
 import AddNoteDialog from "@/components/AddNoteDialog";
+import DeleteDialog from "@/components/DeleteDialog";
 
 export const columns: ColumnDef<FullPatient>[] = [
   {
@@ -29,11 +29,11 @@ export const columns: ColumnDef<FullPatient>[] = [
   },
   {
     accessorKey: "dob",
-    header: "DOB"
+    header: "DOB",
   },
   {
     accessorKey: "gender",
-    header: "Gender"
+    header: "Gender",
   },
   {
     id: "actions",
@@ -52,7 +52,7 @@ export const columns: ColumnDef<FullPatient>[] = [
             <AddNoteDialog patientId={patient.id} isTable={true} />
             <ViewPatientNotes patient={patient} />
             <EditPatient patient={patient} />
-            <DeletePatient patient={patient} />
+            <DeleteDialog id={patient.id} directive="patient" type="text" />
           </DropdownMenuContent>
         </DropdownMenu>
       );

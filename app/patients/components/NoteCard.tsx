@@ -1,9 +1,9 @@
 "use client"
 
+import DeleteDialog from "@/components/DeleteDialog";
 import EditNoteDialog from "@/components/EditNoteDialog";
 import { FullNote } from "@/config";
 import { format } from "date-fns";
-import { TrashIcon } from "lucide-react";
 
 const NoteCard = ({ note }: { note: FullNote }) => {
   return (
@@ -16,7 +16,7 @@ const NoteCard = ({ note }: { note: FullNote }) => {
         <p>{note.user.lastName}</p>
         <div className="flex items-center gap-4">
           <EditNoteDialog note={note} />
-          <TrashIcon size={16} />
+          <DeleteDialog id={note.id} directive="note" type="icon" />
         </div>
       </div>
       <p>{note.text}</p>

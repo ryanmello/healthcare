@@ -12,6 +12,12 @@ export async function POST(req: Request) {
       },
     });
 
+    await db.note.deleteMany({
+      where: {
+        appointmentId: appointmentId,
+      },
+    });
+
     return NextResponse.json(appointment);
   } catch (error) {
     console.log("/api/appointment/delete", error);

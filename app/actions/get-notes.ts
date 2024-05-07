@@ -17,6 +17,7 @@ export const getNotes = async () => {
       orderBy: {
         createdAt: "desc",
       },
+      take: 10,
     });
     return notes;
   } catch (error) {

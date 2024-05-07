@@ -12,6 +12,12 @@ export async function POST(req: Request) {
       },
     });
 
+    await db.note.deleteMany({
+      where: {
+        patientId: id,
+      },
+    });
+
     const patient = await db.patient.delete({
       where: {
         id: id,

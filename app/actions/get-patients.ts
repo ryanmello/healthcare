@@ -9,9 +9,10 @@ export const getPatients = async () => {
             createdAt: "desc",
           },
           include: {
-            // @ts-ignore
             user: true,
-          }
+            patient: true,
+            appointment: true,
+          },
         },
       },
     });

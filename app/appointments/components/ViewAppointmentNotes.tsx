@@ -1,4 +1,4 @@
-import NoteCard from "@/app/patients/components/NoteCard";
+import NoteCard from "@/components/NoteCard";
 import {
   Dialog,
   DialogContent,

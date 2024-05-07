@@ -4,13 +4,13 @@ import { FullAppointment, FullNote } from "@/config";
 import { isToday } from "date-fns";
 import AppointmentCard from "@/components/AppointmentCard";
 import { currentUser } from "@clerk/nextjs";
-import NoteCard from "./patients/components/NoteCard";
+import NoteCard from "../components/NoteCard";
 import { getNotes } from "./actions/get-notes";
 
 export default async function Home() {
   const user = await currentUser();
   const appointments = (await getAppointments()) as FullAppointment[];
-  const notes = (await getNotes(user?.id)) as FullNote[];
+  const notes = (await getNotes()) as FullNote[];
 
   const todayAppointments = appointments.filter((appointment) => {
     const appointmentDate = new Date(appointment.date);

@@ -8,7 +8,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FullNote, FullPatient } from "@/config";
 import { format } from "date-fns";
-import NoteCard from "./NoteCard";
+import NoteCard from "@/components/NoteCard";
 
 const ViewPatientNotes = ({ patient }: { patient: FullPatient }) => {
   return (

@@ -23,7 +23,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import NoteCard from "@/app/patients/components/NoteCard";
+import NoteCard from "@/components/NoteCard";
 import AddNoteDialog from "./AddNoteDialog";
 
 interface AppointmentCardProps {

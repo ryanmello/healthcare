@@ -76,9 +76,9 @@ export type FullNote = {
   id: string;
   text: string;
   patientId: string | null;
-  // patient: Patient;
+  patient: Patient;
   appointmentId: string | null;
-  // appointment: Appointment;
+  appointment: FullAppointment;
   userId: string;
   user: User;
   createdAt: Date;

@@ -151,7 +151,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
                     </Button>
                   </div>
                 </> : <>
-                  <div className="flex flex-col items-center max-w[400px] p-12 border-2 border-dashed border-primary/50 rounded mt-4">
+                  {/* <div className="flex flex-col items-center max-w[400px] p-12 border-2 border-dashed border-primary/50 rounded mt-4">
                     <UploadDropzone
                       endpoint="profileImage"
                       onClientUploadComplete={(res) => {
@@ -168,7 +168,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ user }) => {
                         alert(`ERROR! ${error.message}`);
                       }}
                     />
-                  </div>
+                  </div> */}
                 </>}
               </FormControl>
             </FormItem>

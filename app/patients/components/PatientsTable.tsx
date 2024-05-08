@@ -22,11 +22,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Resend } from 'resend';
+import { toast } from "sonner";
+import axios from "axios";
 
 interface PatientsTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
+
+const resend = new Resend("re_Ac8bcfs4_27dXvsdXgpTv7NpuJUZHAaqi");
 
 export function PatientsTable<TData, TValue>({
   columns,
@@ -50,8 +55,22 @@ export function PatientsTable<TData, TValue>({
     },
   });
 
+
+
+  const sendEmail = async () => {
+    try {
+      await axios.post("/api/send");
+      toast.success("Email sent");
+
+      return Response.json(data);
+    } catch (error) {
+      return Response.json({ error });
+    }
+  }
+
   return (
     <div>
+      <Button onClick={() => sendEmail()}>Send Email</Button>
       <div className="flex items-center py-4 space-x-2">
         <Input
           placeholder="Filter first names..."

@@ -7,8 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// https://csus.instructure.com/courses/116096/files/20385697?module_item_id=6222591
-
 model User {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   clerkId      String        @unique

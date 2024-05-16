@@ -70,7 +70,6 @@ export function PatientsTable<TData, TValue>({
 
   return (
     <div>
-      <Button onClick={() => sendEmail()}>Send Email</Button>
       <div className="flex items-center py-4 space-x-2">
         <Input
           placeholder="Filter first names..."
